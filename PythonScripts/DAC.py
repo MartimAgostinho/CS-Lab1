@@ -1,7 +1,7 @@
 import numpy as np
 from sympy import *
 
-Vy,Vx,Vi,Vr, Cb, Cb0l, Scb_b, Scb, Sc, Sc_b, n, N, m, M = symbols( "V_y V_x V_i V_r C_B C_{B0l} S_{cb_B} S_{cB} S_c S_{c_B} n N m M" )
+Vy,Vx,Vi,Vr, Cb, Cb0l, Scb_b, Scb, Sc, Sc_b, n, N, m, M = symbols( "V_y V_x V_i V_r C_B C_{B0l} S_{cb_B} S_{cb} S_c S_{c_B} n N m M" )
 
 #print( latex(vy),latex(vx),latex(vi),latex(vr), latex(Cb), latex(Cb0l), latex(Scb_B),latex(Scb),latex(Sc),latex(Sc_b))
 
@@ -20,6 +20,14 @@ Vy = (  Cb*(Vx-Vi) + (Vr*Scb_b)  )/( Cb + Cb0l + Scb )
 
 f1 = Vi + ( ( Vy*Cb + Vr*Sc_b )/(Sc) ) - Vx
 
-Vx = solve( f1,Vx )
+Vx = cancel( expand( solve( f1,Vx )[0]))
 
-print(latex(cancel(Vx[0])))
+print(latex( collect( Vx, [Vi, Vr] ) )  )
+
+
+################# SIMPLIFICAR #################
+
+
+f2 = (Cb*Sc_b+Cb*Scb_b + Cb0l*Scb_b + Sc_b*Scb)/( (Cb**2)-Cb*Sc-Cb0l*Sc-Scb )
+print("\nSimplification \n")
+print( latex ( collect( expand( cancel(f2) ), [Scb, Scb_b]  )) )
