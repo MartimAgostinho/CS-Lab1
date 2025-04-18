@@ -15,25 +15,28 @@ def dac_out(vr,C_B0l,C_B,C_i,C_Bi, vi, code ):
     code = np.flip(code)
     print("\nDEBUG "+ str(int(numbits/2)) +"\n")
     #TODO otimizar
-    s_LC = sum( C_Bi ) + C_B0l - C_B 
-    print(s_LC)
-    s_MC = sum( C_i )  + C_B   #- 1
+    Sc    = sum( C_i )
+    Sc_B  = sum( C_Bi )
+    #Scb   = sum( C_i[i]*code[i] for i in range(0,int(numbits/2)) )
+    #Scb_B = sum( C_Bi[i]*code[i+int(numbits/2)] for i in range(0,int(numbits/2)) )
 
-    s_LB = 0 
-    s_MB = 0 
+    Scb   = 0 
+    Scb_B = 0 
 
     for i in range( 0, int(numbits/2)):
-        s_MB += C_i[i]*code[i+int(numbits/2)]
-        s_LB += C_Bi[i]*code[i]
+        print( "Scb   += "+str(C_i[i])+"*"+str( code[i] ) )
+        print( "Scb_B += "+str(C_Bi[i])+"*"+str( code[i+int(numbits/2)] ) )
+        Scb   += C_i[i]*code[i+int(numbits/2)]
+        Scb_B += C_Bi[i]*code[i]
+    
+    return vi + vr*( C_B*( Scb_B - Scb ) + Scb*( Sc_B + C_B0l ) )/( C_B*( C_B0l - Sc + Sc_B ) + Sc*( C_B0l + Sc_B ) )
 
-    return vi + \
-        (vr/( s_LC*s_MC + C_B ) )*( s_LB + s_LC*s_MB)
 #exemplo para 2 bits de cada lado
 
 C_i   = [1, 2]
 C_Bi  = [1, 2]
-C_B   = 4/5
-C_B0l = C_B + 1
+C_B   = 4
+C_B0l = 1
 vr    = 1
 vi    = 0
 
@@ -52,14 +55,5 @@ for n in range (0,16):
     res_dac[n] = dac_out(vr,C_B0l,C_B,C_i,C_Bi, vi, code )
     print(str(code)+" -> "+str( res_dac[n] ))
 
-
-x = [ n for n in range(0,16) ]
-plt.step(x, res_dac,where='mid')
-plt.plot(x, res_dac, 'o', color='orange')
-
-plt.xlabel("DAC OUT")
-plt.ylabel("Code")
-plt.title("DAC transfer function")
-plt.legend()
-plt.grid(True)
+plt.plot([ n for n in range(0,16) ], res_dac)
 plt.show()
