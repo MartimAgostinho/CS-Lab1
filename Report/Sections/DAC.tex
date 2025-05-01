@@ -1,0 +1,37 @@
+\section{ARRANJAR TITULO}
+
+Para analisar o circuit primeiro dividir porque é diferencial. e analisar primeiro o DacCirc
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[scale = 0.35]{Images/DacCirc.png}
+    \caption{Simplified DAC circuit}
+    \label{fig:DAC_Circ}
+\end{figure}
+
+explicar fases
+
+\subsection{Phase 1}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[scale = 0.35]{Images/DACCircP1.png}
+    \caption{Phase 1 circuit}
+    \label{fig:P1_Circ}
+\end{figure}
+
+Where:
+\begin{equation}
+    C_{eq} = C_B // \left( C_{0'}+\sum_{i=0}^{Ln} C_i\right )
+\end{equation}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[scale = 0.35]{Images/DACP1Ceq.png}
+    \caption{Phase 1 circuit}
+    \label{fig:P1_DACCeq}
+\end{figure}
+
+\begin{equation}
+    Q_{\phi 1} = V_x^{\phi_1}\cdot \sum C_{Mi} + V_x^{\phi_1}\cdot \left [  C_B \\ \left ( C_{Bo'} + \sum C_{Ln} \right) \right ] = V_{in}\left[ S_{MC} + C_{eq} \right]
+\end{equation}
+
