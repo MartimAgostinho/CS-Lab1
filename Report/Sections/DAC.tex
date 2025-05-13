@@ -12,95 +12,56 @@ Falar dos split caps
     \label{fig:DAC_Circ}
 \end{figure}
 
-explicar fases
-
-\subsection{Phase 1}
+explicar que para modelar o DAC só é preciso ver como mudar a fonte de um cap afeta o no.
 
 \begin{figure}[H]
 
     \centering
-    \begin{subfigure}{0.4\textwidth}
-        \includegraphics*[scale = 0.17]{Images/DACCircP1.png}
-        \caption{Complete Circuit}
-        \label{fig:first}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.4\textwidth}
-        \includegraphics*[scale = 0.18]{Images/DACP1Ceq.png}
-        \caption{Simplified Circuit}
-        \label{fig:second}
-    \end{subfigure}
-    
-    \caption{Phase 1 circuit}
+    \includegraphics*[width=0.8\textwidth]{Images/DACCircPn.png}
+    \caption{Circuit at phase $\phi_n$}
+
     \label{fig:P1_Circ}
 \end{figure}
 
-Where:
-\begin{equation}
-    C_{eq} = C_B // \overbrace{\left( C_{0'}+\sum_{i=0}^{Ln} C_i\right )}^{S_{LC}}
-\end{equation}
+For phase $\phi_n$ the sum of charges at the node $V_x$ is:
 
 \begin{equation}
-    \begin{split}
-        Q_{\phi 1} &= V_x^{\phi_1}\cdot C_{M0}+ V_x^{\phi_1}\cdot  \sum_i C_{Mai} + (V_x^{\phi_1} - V_{ref})\cdot  \sum_i C_{Mbi}+ V_x^{\phi_1}\cdot C_{eq} \\
-        &= V_x^{\phi_1} \left( C_{eq} +\underbrace{ C_{M0} +   \sum_i C_{Mai}+C_{Mbi}}_{S_{MC}} \right ) - V_{ref}\cdot \sum_i C_{Mbi}
-    \end{split}
-    \label{eq:ChargeP1}
+    Q_{\phi_n} = (V_x^{\phi_n}-V_y^{\phi_n})\cdot C_B + V_x^{\phi_n}\cdot \underbrace{ \left ( C_B + \sum_{i=0}^{I}C_i \right )}_{C_{MT}}-V_r\cdot \left ( \sum_{i=0}^{I} C_i\cdot b_i \right )^{\phi_n}
 \end{equation}
 
-
-\subsection{Phase 2}
-
-\textcolor{red}{Dizer que pode ser analisado sem split}
-
-For the second phase the capacitors are either connected to ground or $V_{ref}$ METER REF AO CIRCUIT COM OS NOS VX e VY. Therefore:
+Similarly for phase $\phi_{n+1}$
 
 \begin{equation}
-    Q_{Mn} = (V_x^{\phi_1} - V_{ref}\cdot b_{Mn})\cdot C_{Mn}
-    \label{eq:ChargeMn}
+    Q_{\phi_{n+1}} = (V_x^{\phi_{n+1}}-V_y^{\phi_{n+1}})\cdot C_B + V_x^{\phi_{n+1}}\cdot C_{MT}-V_r\cdot \left ( \sum_{i=0}^{I} C_i\cdot b_i \right )^{\phi_{n+1}}
 \end{equation}
 
-The equation \ref{eq:ChargeMn} represents the charge stored on the capacitor $C_{Mn}$, where the subscript $Mn$ denotes the n-th bit capacitor within the MSB code block, and the term $b_{Mn}$ is the value associated with the mentioned bit.
-
-\begin{equation}
-    \begin{split}   
-        Q_{\phi_2} &= (V_x^{\phi_2} - V_{ref}\cdot b_{Mn})\cdot C_{Mn} + (V_x^{\phi_2} - V_y^{\phi_2})\cdot C_B \Leftrightarrow \\
-       \Leftrightarrow Q_{\phi_2} &= V_x^{\phi_2}\left[C_B + \sum_{n=0}^{Mn}C_{Mn}\right]-V_{y}^{\phi_2}\cdot C_B - V_{ref}\cdot\underbrace{\sum_{n=0}^{Mn}C_{Mn} b_{Mn}}_{S_{MB}(code)}
-    \end{split}
-    \label{eq:ChargeP2}
-\end{equation}
-
-Now $V_y$ can easily be analysed with superposition:
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics*[scale = 0.35]{Images/VySuperposition.png}
-    \caption{$V_y$ superposition circuit ARRANJAR OUTRO TITULO}
-    \label{fig:VySuperposition}
-\end{figure}
-
-\textcolor{red}{EXPLICAR}
-
-It is important to note that there is a special case for the source $V_x$. 
-
-\begin{equation}
-    V_{yn}^{\phi_2} = \frac{C_{Ln}}{\displaystyle C_B + C_{B0'}+\sum_i C_{Li}}\cdot b_{Ln}\cdot V_{ref}
-\end{equation}
+Therefore with $Q_{\phi_{n}}=Q_{\phi_{n+1}}$:
 
 \begin{equation}
     \begin{split}
-        V_y^{\phi_2} &= V_x^{\phi_2}\frac{C_B}{C_B + C_{0'}+\sum_i C_{Li}} + \sum V_{yn}^{\phi_2} =\\
-        &= \frac{ V_x^{\phi_2}\cdot C_B + V_{ref}\cdot \overbrace{\sum_i b_{Li}\cdot C_{Li}}^{S_{LB}}}{ C_B + C_{0'}+\sum_i C_{Li}}
+        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} +  \frac{ V_r\overbrace{\sum_{i}\left[ (C_i\cdot b_i)^{\phi_{n+1}} - (C_i\cdot b_i)^{\phi_{n}}\right]}^{\Delta C_i}+C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_T} \\
+        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} + V_r \frac{ V_r \Delta C_i +C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_T}
     \end{split}
-    \label{eq:Vy}
+    \label{eq:VxPn}
 \end{equation}
 
-Solving the equations ... \textcolor{red}{meter ponte e palha}
+explicar que como estou a subtrair os caps ligados aos desligados so conta os caps a fazer transicao +Ci de 0 pra vr e -ci vice versa.
 
-python:
+Agora pra Vy 
+\begin{equation}
+    Q_{\phi_{n}} = V_y^{\phi_n}\underbrace{\left( \sum_{j=0}^{J}C_j \right)}_{C_{LT}} + (V_y^{\phi_{n}}-V_x^{\phi_{n}})C_B-V_r\cdot \left ( \sum_{j=0}^{J} C_j\cdot b_j \right )^{\phi_n}
+\end{equation}
 
 \begin{equation}
-    \boxed{ V_x(code) = V_{i}  + V_{ref}\frac{ S_{MB}(code)\cdot(C_B+S_{LC})+S_{LB}(code)\cdot C_B  - S_{LC}\cdot\sum C_{Mbi}}{C_{B} ( S_{LC} + S_{MC}) + S_{LC} S_{MC}}}
-    \label{eq:VxFinal}
+    Q_{\phi_{n+1}} = V_y^{\phi_{n+1}}\underbrace{\left( \sum_{j=0}^{J}C_j \right)}_{C_{LT}} + (V_y^{\phi_{n+1}}-V_x^{\phi_{n+1}})C_B-V_r\cdot \left ( \sum_{j=0}^{J} C_j\cdot b_j \right )^{\phi_n+1}
 \end{equation}
+
+\begin{equation}
+    V_y^{\phi_{n+1}}-V_y^{\phi_{n+1}} = C_B\cdot (V_x^{\phi_{n+1}}-V_x^{\phi_n}) + V_r\Delta C_j
+\end{equation}
+
+\begin{equation}
+    \boxed{V_{x}^{\phi_{n+1}}=V_{x}^{\phi_n}+V_{r}\frac{   {\Delta}C_{Mi} (C_{B} + \sigma_{LC} )+C_{B} {\Delta}C_{Li}}{C_{B}\left( \sigma_{LC} + \sigma_{MC}\right) + \sigma_{LC} \sigma_{MC}}}
+\end{equation}
+provando que o valor atual depende apenas do valor anterior e dos caps que mudaram.
+
