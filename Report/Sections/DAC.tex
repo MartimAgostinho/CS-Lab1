@@ -1,0 +1,67 @@
+\section{ARRANJAR TITULO}
+
+Para analisar o circuit primeiro dividir porque é diferencial. e analisar primeiro o DacCirc
+
+Explicar que o codigo ]e dividido em dois codigos
+Falar dos split caps
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[scale = 0.35]{Images/DacCirc.png}
+    \caption{Simplified DAC circuit}
+    \label{fig:DAC_Circ}
+\end{figure}
+
+explicar que para modelar o DAC só é preciso ver como mudar a fonte de um cap afeta o no.
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/DACCircPn.png}
+    \caption{Circuit at phase $\phi_n$}
+
+    \label{fig:P1_Circ}
+\end{figure}
+
+For phase $\phi_n$ the sum of charges at the node $V_x$ is:
+
+\begin{equation}
+    Q_{\phi_n} = (V_x^{\phi_n}-V_y^{\phi_n})\cdot C_B + V_x^{\phi_n}\cdot \underbrace{ \left ( C_B + \sum_{i=0}^{I}C_i \right )}_{C_{MT}}-V_r\cdot \left ( \sum_{i=0}^{I} C_i\cdot b_i \right )^{\phi_n}
+\end{equation}
+
+Similarly for phase $\phi_{n+1}$
+
+\begin{equation}
+    Q_{\phi_{n+1}} = (V_x^{\phi_{n+1}}-V_y^{\phi_{n+1}})\cdot C_B + V_x^{\phi_{n+1}}\cdot C_{MT}-V_r\cdot \left ( \sum_{i=0}^{I} C_i\cdot b_i \right )^{\phi_{n+1}}
+\end{equation}
+
+Therefore with $Q_{\phi_{n}}=Q_{\phi_{n+1}}$:
+
+\begin{equation}
+    \begin{split}
+        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} +  \frac{ V_r\overbrace{\sum_{i}\left[ (C_i\cdot b_i)^{\phi_{n+1}} - (C_i\cdot b_i)^{\phi_{n}}\right]}^{\Delta C_i}+C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_T} \\
+        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} + V_r \frac{ V_r \Delta C_i +C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_T}
+    \end{split}
+    \label{eq:VxPn}
+\end{equation}
+
+explicar que como estou a subtrair os caps ligados aos desligados so conta os caps a fazer transicao +Ci de 0 pra vr e -ci vice versa.
+
+Agora pra Vy 
+\begin{equation}
+    Q_{\phi_{n}} = V_y^{\phi_n}\underbrace{\left( \sum_{j=0}^{J}C_j \right)}_{C_{LT}} + (V_y^{\phi_{n}}-V_x^{\phi_{n}})C_B-V_r\cdot \left ( \sum_{j=0}^{J} C_j\cdot b_j \right )^{\phi_n}
+\end{equation}
+
+\begin{equation}
+    Q_{\phi_{n+1}} = V_y^{\phi_{n+1}}\underbrace{\left( \sum_{j=0}^{J}C_j \right)}_{C_{LT}} + (V_y^{\phi_{n+1}}-V_x^{\phi_{n+1}})C_B-V_r\cdot \left ( \sum_{j=0}^{J} C_j\cdot b_j \right )^{\phi_n+1}
+\end{equation}
+
+\begin{equation}
+    V_y^{\phi_{n+1}}-V_y^{\phi_{n+1}} = C_B\cdot (V_x^{\phi_{n+1}}-V_x^{\phi_n}) + V_r\Delta C_j
+\end{equation}
+
+\begin{equation}
+    \boxed{V_{x}^{\phi_{n+1}}=V_{x}^{\phi_n}+V_{r}\frac{   {\Delta}C_{Mi} (C_{B} + \sigma_{LC} )+C_{B} {\Delta}C_{Li}}{C_{B}\left( \sigma_{LC} + \sigma_{MC}\right) + \sigma_{LC} \sigma_{MC}}}
+\end{equation}
+provando que o valor atual depende apenas do valor anterior e dos caps que mudaram.
+
