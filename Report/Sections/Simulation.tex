@@ -256,7 +256,7 @@ Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum. Hence th
     \label{eq:NoisePower}
 \end{equation}
 
-When implementing this, it is important to have in mind the discrete nature of code and its consequences. To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. Because the ADC changes the signal's magnitude, the input and output spectrum were normalized.
+When implementing this, it is important to have in mind the discrete nature of code and its consequences. To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods, also because of the Nyquist theorem $+\infty$ is $F_s/2$. Because the ADC changes the signal's magnitude, the input and output spectrum were normalized.
 
 \subsubsection{Code Validation}
 
