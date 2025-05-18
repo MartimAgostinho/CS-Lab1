@@ -11,5 +11,158 @@ the comparator's offset voltage.}
 
 \textcolor{red}{Demonstrate that your code is working correctly, by first presenting the INL and DNL for the case of zero errors in the circuit. Also present the evolution of Vxp and Vxn for each step for a given input voltage.}
 
-With equation \ref{eq:DeltaVx}, the model needs only to 
+
+\subsection{DAC}
+
+With equation \ref{eq:DeltaVx}, the model needs only to store the last value of $V_x$ and most importantly, each bit variation on the output node, can be previously calculated and simply accessed, avoiding redundant computing.  
+
+Hence the first step in modeling the DAC is creating a function that precompute the DAC weights. For the Ideal values each weight is represented in Table \ref{tab:DACWeights}.
+
+\begin{table}[h]
+
+    \centering
+    \caption{DAC Bit weights}
+    \begin{tabularx}{\textwidth}{
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        >{\centering\arraybackslash}X 
+        }
+        \toprule
+        \textbf{Bit Value}  & \textbf{$B_{10}$}& \textbf{$B_{9}$}& \textbf{$B_{8}$}& \textbf{$B_{7}$}& \textbf{$B_{6}$}& \textbf{$B_{5}$}& \textbf{$B_{4}$}& \textbf{$B_{3}$}& \textbf{$B_{2}$}& \textbf{$B_{1}$}& \textbf{$B_{0}$}\\
+        \midrule
+        $1$ & 250     & 125     & 62.5    & 31.25   & 15.63  & 7.81 & 7.81 & 3.91& 1.95& 0.98& 0.488  \\
+        \midrule
+        $0$ & -250  & -125   & -62.5     & -31.3    & -15.6   & -7.8 & 0 & 0 & 0 & 0 & 0  \\    
+        \bottomrule
+    \end{tabularx}
+    \label{tab:DACWeights}
+\end{table}
+
+Now, with the weights computed the DAC output is, in this step is important to remember that the this is a differential circuit, otherwise the DAC wont work for all bits.
+
+\begin{equation}
+    V_{DAC} = \sum_{i}^{\text{code}}\Delta V_{xp}(b_i)- \Delta V_{xn}(b_i)
+    \label{eq:VDAC}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/DAC_TransFunc_ideal.png}
+        \caption{Ideal DAC Transfer Function}
+        \label{fig:DAC_TF}
+    \end{subfigure}%
+
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/DAC_DNL_ideal.png}
+        \caption{Ideal DAC DNL}
+        \label{fig:DAC_DNL}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/DAC_INL_ideal.png}
+        \caption{Ideal DAC INL}
+        \label{fig:DAC_INL}
+    \end{subfigure}
+
+    \caption{DAC validation}
+    \label{fig:IdealDAC}
+\end{figure}
+
+Figure \ref{fig:IdealDAC} was obtained by sweeping all codes and computing the INL and DNL. For this test $V_{ref} = 2$ and the ideal values for the capacitors were considered. This works as expected with a linear transfer function, Figure \ref{fig:DAC_TF}, and always 0 DNL and INL values, Figures \ref{fig:DAC_DNL} and \ref{fig:DAC_INL}.
+
+\subsection{ADC}
+
+The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{sn}$ evolution, debug and validation is easier.
+
+\textcolor{red}{explicar a funcao ? @Sa esta comentada no latex em baixo deste texto}
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/Vxp_Vxn_evolution_1V_input.png}
+    \caption{$V_{xp}$ and $V_{xn}$ evolution $V_{in} = 1$.}
+
+    \label{fig:VxpVxnEvo}
+\end{figure}
+\textcolor{red}{SA EXPLICA ISTO PLS $\SI{1}{\volt}$ de entrada }
+
+Now having confirmed the ADC functionality a simpler function was developed, since there is no need to keep the values of both nodes.
+The first simplification made was to the circuit's differential nature, the comparator's output, with $V_{Offset}$ effect, is shown in Equation \ref{eq:CompOut}.
+
+\begin{equation}
+    V_{xp} + V_{offset} > V_{xn} \Leftrightarrow \overbrace{( V_{xp} - V_{xn} )}^{V_x} > V_{Offset} 
+    \label{eq:CompOut}
+\end{equation}
+
+\textcolor{red}{DECIDIR CODIGO OU FLOWCHART}
+
+\begin{lstlisting}[caption={ADC Function}]
+def adc(vin, dac_weights_plus, dac_weights_minus, n_bits_dac, Voffset=0):
+    ind   = n_bits_dac  
+    b_aux = vin > 0
+    res = bit_masks[n_bits_dac]*b_aux
+
+    for i in range(n_bits_dac-1, -1, -1):
+        vin  += dac_weights_plus[i][np.uint8(not b_aux)] \\
+              - dac_weights_minus[i][np.uint8(b_aux)]
+        b_aux = vin > Voffset
+        ind  -= 1
+        res  += bit_masks[i]*b_aux
+
+    return res
+\end{lstlisting}
+
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/ADCPythonFlowChart.png}
+    \caption{ADC Python function FLowchart.}
+
+    \label{fig:ADCFlowChart}
+\end{figure}
+
+Now in order to get the ADC transitions, a ramp input signal is generated and then the transition points are collected, giving a tuple output, $\text{ADC Transitions} \longrightarrow ( D_{out}, V_{in} ) $, were $D_{out}$ is the digital output and $V_{in}$ is the analog input that first changed the code to $D_{out}$. 
+
+The Ideal ADC gives the 
+
+\begin{comment}
+    
+    vip   = vin/2 +1
+    vin   = -vin/2 +1
+    ind   = n_bits_dac  
+    b_aux = vip > vin
+    res   = bit_masks[n_bits_dac]*b_aux
+
+    vip_arr = [ float() for _ in range(n_bits+1) ]
+    vin_arr = [ float() for _ in range(n_bits+1) ]
+
+    vip_arr[0] = vip
+    vin_arr[0] = vin
+
+    j = 1
+    for  i in range(n_bits_dac-1,-1,-1):
+        vip   += dac_weights_plus[i][np.uint8(not(b_aux))]
+        vin   += dac_weights_minus[i][np.uint8(b_aux)]
+        vip_arr[j] = vip
+        vin_arr[j] = vin
+        j     += 1
+        b_aux  = vip + Voffset > vin        
+        ind   -= 1
+        res   += bit_masks[i]*b_aux
+\end{comment}
+
 
