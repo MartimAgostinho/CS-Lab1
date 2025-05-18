@@ -5,6 +5,8 @@
 expression of the capacitor array voltages (Vxp and Vxn) as a function of vin, the control bits and the capacitors values. Use the charge conservation principle in
 your analysis. Suggestion: first analyze the MSB sub-array separately.Explain how you obtained the expressions and present the expressions in a readable format.}
 
+In this section, we will analyze the circuit of the ADC, focusing on the CDAC.
+
 \subsection{Digital to Analog Converter Analysis}
 
 A SAR ADC fundamentally implements a binary-search conversion by using a capacitive DAC to generate successive approximations of the input voltage. This makes the DAC the most important block to analise in this ADC. 
@@ -23,7 +25,7 @@ It is important to note that the DAC code is divided in Most Significant Bits (M
 Each DAC capacitor's bottom plate is alternately connected to either ground (0 V) or the reference voltage $V_{ref}$. During conversion, that switching injects or removes charge proportional to the capacitor's value and the switch state (0 or 1). Hence in order to model the circuit behavior can be modeled as a voltage source with value $b_n\cdot C_n$. 
 
 
-For phase an arbitrary phase $\phi_n$, the circuit is represented by Figure \ref{fig:P1_Circ}. If this phase is the sampling phase, $V_x = V_{in}$ and all capacitors are connected to ground, with the exception of the split capacitors these are represented as $C_{bi}$, where the $i$ is the number of the capacitor/bit.
+For an arbitrary phase $\phi_n$, the circuit is represented by Figure \ref{fig:P1_Circ}. If this phase is the sampling phase, $V_x = V_{in}$ and all capacitors are connected to ground, with the exception of the hybrid capacitors as explained at section \ref{sec:CDAC}.
 
 \begin{figure}[H]
 
@@ -59,9 +61,9 @@ Therefore with $Q_{\phi_{n}}=Q_{\phi_{n+1}}$:
     \label{eq:VxPn}
 \end{equation}
 
-Assessing Equation \ref{eq:VxPn}, Capacitors that remain connected to the same source between phases, do not contribute to the net change in charge. The capacitors that change state between phases are represented as $\Delta C_i$. This means that if a capacitor changes from ground to $V_{ref}$, $\Delta C_i = C_i$ but in the case were it changes from $V_{ref}$ to ground,  $\Delta C_i = -C_i$, this will be important for the split capacitors.
+Assessing Equation \ref{eq:VxPn}, Capacitors that remain connected to the same source between phases, do not contribute to the net change in charge. The capacitors that change state between phases are represented as $\Delta C_i$. This means that if a capacitor changes from ground to $V_{ref}$, $\Delta C_i = C_i$ but in the case were it changes from $V_{ref}$ to ground,  $\Delta C_i = -C_i$, this will e important for the hybrid capacitors.
 
-Now to discover the value of $V_y$, the process is similar. 
+To discover the value of $V_y$, the process is similar. 
 
 \begin{equation}
     Q_{\phi_{n}} = V_y^{\phi_n}\underbrace{\left( \sum_{j=0}^{J}C_j \right)}_{C_{LT}} + (V_y^{\phi_{n}}-V_x^{\phi_{n}})C_B-V_r\cdot \left ( \sum_{j=0}^{J} C_j\cdot b_j \right )^{\phi_n}
@@ -73,7 +75,7 @@ Now to discover the value of $V_y$, the process is similar.
     \label{eq:VyP2}
 \end{equation}
 
-Solving Equation \ref{eq:VyP1} and Equation \ref{eq:VyP2}, $V_{y}^{\phi_{n+1}}$ is obtained, Equation \ref{eq:Vy}.
+Solving Equation \ref{eq:VyP1} and Equation \ref{eq:VyP2}, $V_y^{\phi_{n+1}}-V_y^{\phi_{n+1}}$ is obtained, Equation \ref{eq:Vy}.
 
 \begin{equation}
     V_y^{\phi_{n+1}}-V_y^{\phi_{n+1}} = C_B\cdot (V_x^{\phi_{n+1}}-V_x^{\phi_n}) + V_r\Delta C_j
