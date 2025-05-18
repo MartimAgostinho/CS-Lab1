@@ -47,7 +47,7 @@ Hence the first step in modeling the DAC is creating a function that precompute 
     \label{tab:DACWeights}
 \end{table}
 
-Now, with the weights computed the DAC output is, in this step is important to remember that the this is a differential circuit, otherwise the DAC wont work for all bits.
+In this step is important to remember that the this is a differential circuit, otherwise the DAC wont work for all bits.Now, with the weights computed the DAC output is show in Figure \ref{fig:DAC_TF}.
 
 \begin{equation}
     V_{DAC} = \sum_{i}^{\text{code}}\Delta V_{xp}(b_i)- \Delta V_{xn}(b_i)
@@ -85,14 +85,40 @@ Figure \ref{fig:IdealDAC} was obtained by sweeping all codes and computing the I
 
 \subsection{ADC}
 
-The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{sn}$ evolution, debug and validation is easier.
+The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{xn}$ evolution, debug and validation is easier.
 
 \textcolor{red}{explicar a funcao ? @Sa esta comentada no latex em baixo deste texto}
+
+\begin{comment}
+    
+    vip   = vin/2 +1
+    vin   = -vin/2 +1
+    ind   = n_bits_dac  
+    b_aux = vip > vin
+    res   = bit_masks[n_bits_dac]*b_aux
+
+    vip_arr = [ float() for _ in range(n_bits+1) ]
+    vin_arr = [ float() for _ in range(n_bits+1) ]
+
+    vip_arr[0] = vip
+    vin_arr[0] = vin
+
+    j = 1
+    for  i in range(n_bits_dac-1,-1,-1):
+        vip   += dac_weights_plus[i][np.uint8(not(b_aux))]
+        vin   += dac_weights_minus[i][np.uint8(b_aux)]
+        vip_arr[j] = vip
+        vin_arr[j] = vin
+        j     += 1
+        b_aux  = vip + Voffset > vin        
+        ind   -= 1
+        res   += bit_masks[i]*b_aux
+\end{comment}
 
 \begin{figure}[H]
 
     \centering
-    \includegraphics*[width=0.8\textwidth]{Images/Vxp_Vxn_evolution_1V_input.png}
+    \includegraphics*[width=0.9\textwidth]{Images/Vxp_Vxn_evolution_1V_input.png}
     \caption{$V_{xp}$ and $V_{xn}$ evolution $V_{in} = 1$.}
 
     \label{fig:VxpVxnEvo}
@@ -103,7 +129,7 @@ Now having confirmed the ADC functionality a simpler function was developed, sin
 The first simplification made was to the circuit's differential nature, the comparator's output, with $V_{Offset}$ effect, is shown in Equation \ref{eq:CompOut}.
 
 \begin{equation}
-    V_{xp} + V_{offset} > V_{xn} \Leftrightarrow \overbrace{( V_{xp} - V_{xn} )}^{V_x} > V_{Offset} 
+    V_{xp} + V_{offset} > V_{xn} \Leftrightarrow \overbrace{( V_{xp} - V_{xn} )}^{V_x} > V_{offset} 
     \label{eq:CompOut}
 \end{equation}
 
@@ -135,34 +161,117 @@ def adc(vin, dac_weights_plus, dac_weights_minus, n_bits_dac, Voffset=0):
     \label{fig:ADCFlowChart}
 \end{figure}
 
+\subsubsection{Code Validation}
+
 Now in order to get the ADC transitions, a ramp input signal is generated and then the transition points are collected, giving a tuple output, $\text{ADC Transitions} \longrightarrow ( D_{out}, V_{in} ) $, were $D_{out}$ is the digital output and $V_{in}$ is the analog input that first changed the code to $D_{out}$. 
 
-The Ideal ADC gives the 
+For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is need, for the following simulations 50 points per $V_{LSB}$ was used.
 
-\begin{comment}
-    
-    vip   = vin/2 +1
-    vin   = -vin/2 +1
-    ind   = n_bits_dac  
-    b_aux = vip > vin
-    res   = bit_masks[n_bits_dac]*b_aux
 
-    vip_arr = [ float() for _ in range(n_bits+1) ]
-    vin_arr = [ float() for _ in range(n_bits+1) ]
+\begin{figure}[H]
+    \centering
 
-    vip_arr[0] = vip
-    vin_arr[0] = vin
+    \begin{subfigure}[b]{0.9\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/ADC_TransFunc_Ideal.png}
+        \caption{Ideal ADC Transfer Function}
+        \label{fig:ADC_TF_Ideal}
+    \end{subfigure}%
 
-    j = 1
-    for  i in range(n_bits_dac-1,-1,-1):
-        vip   += dac_weights_plus[i][np.uint8(not(b_aux))]
-        vin   += dac_weights_minus[i][np.uint8(b_aux)]
-        vip_arr[j] = vip
-        vin_arr[j] = vin
-        j     += 1
-        b_aux  = vip + Voffset > vin        
-        ind   -= 1
-        res   += bit_masks[i]*b_aux
-\end{comment}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/DNL_Ideal.png}
+        \caption{Ideal ADC DNL}
+        \label{fig:ADC_DNL_Ideal}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/INL_Ideal.png}
+        \caption{Ideal ADC INL}
+        \label{fig:ADC_INL_Ideal}
+    \end{subfigure}
+
+    \caption{DAC validation}
+    \label{fig:IdealADC}
+\end{figure}
+
+\textcolor{red}{Dizer que tem erro mas é pq o input nao é verdadeiramente analogico}
+
+
+\subsection{FFT ou SNR/ENOB}
+
+\begin{equation}
+    SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)}
+    \label{eq:SNDR}
+\end{equation}
+
+In order to calculate $SNDR$ a input signal was created,$v_{in}$ , in this case a sine wave with frequency $\SI{1}{\hertz}$. This signal is sampled by the ADC and the output is stored, $v_{out}$.
+
+Now the Fourier Transform is computed for both.
+
+\begin{equation}
+    \begin{split}
+        \mathcal{F}\{v_{in}(t)\} &\rightarrow V_{IN}(f)\\
+        \mathcal{F}\{v_{out}(t)\} &\rightarrow V_{OUT}(f)\\
+    \end{split}
+    \label{eq:fourier}
+\end{equation}
+
+Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum. Hence the noise power is given by Equation \ref{eq:NoisePower}.
+
+\begin{equation}
+    P_{noise} = \int_{0}^{+\infty}|N(f)|^2 
+    \label{eq:NoisePower}
+\end{equation}
+
+When implementing this, it's important to remember that code operates in discrete time, which has specific effects.  To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. According to the Nyquist theorem, the maximum frequency that can be accurately represented is $F_s/2$, therefore the integral is ends at $F_s/2$ and not $+\infty$. By using a high sampling rate and a low input frequency, the noise introduced during sampling becomes negligible. To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods.
+
+\subsubsection{Code Validation}
+
+In order to validate the code, this was tested for the ideal ADC, equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. \textcolor{red}{METER REF}
+
+\begin{equation}
+    SNR_{MAX} = 6.02\cdot n+1.76~~[\si{\decibel}]
+    \label{eq:IdealSNR}
+\end{equation}
+
+Which for a 12 bit ADC gives an ideal $SNR$ of $74~~\si{\decibel}$. The calculated value through the python scripts gives an $SNR = 73.9761~\si{\decibel}$, validating the implementation.
+
+\textcolor{red}{Decidam se querem usar estas imagens}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Vin_tempo_ideal.png}
+        \caption{$v_{in}(t)$}
+        \label{fig:Vin_tempo_ideal}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Vin_ideal.png}
+        \caption{$V_{IN}(f)$}
+        \label{fig:Vin_freq_ideal}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Dout_ideal.png}
+        \caption{$V_{OUT}(f)$}
+        \label{fig:Vout_freq_ideal}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Noise_Ideal.png}
+        \caption{$N(f)$}
+        \label{fig:Noise_freq_ideal}
+    \end{subfigure}
+
+    \caption{\textcolor{red}{ADICIONAR TITULO}}
+    \label{fig:Noise Ideal}
+\end{figure}
+
+
 
 

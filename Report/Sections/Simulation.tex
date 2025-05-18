@@ -18,7 +18,7 @@ Explicar - para comparar com os resultados do paper, na tecnologia $\SI{65}{\nan
 \begin{figure}[H]
 
     \centering
-    \includegraphics*[width=0.8\textwidth]{Images/ADC_TransFunc_All_Caps_20Ksim_s0011.png}
+    \includegraphics*[width=0.9\textwidth]{Images/ADC_TransFunc_All_Caps_20Ksim_s0011.png}
     \caption{ADC's Transfer function. \textcolor{red}{Melhorar titulo}}
 
     \label{fig:ADC_TF_ALLCAPS}
@@ -300,76 +300,4 @@ $V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$
 \end{figure}
 
 \newpage
-\subsection{FFT ou SNR/ENOB}
 
-\begin{equation}
-    SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)}
-    \label{eq:SNDR}
-\end{equation}
-
-In order to calculate $SNDR$ a input signal was created,$v_{in}$, in this case a sine wave with frequency $\SI{1}{\hertz}$. This signal is sampled by the ADC and the output is stored, $v_{out}$.
-
-Now the Fourier Transform is computed for both.
-
-\begin{equation}
-    \begin{split}
-        \mathcal{F}\{v_{in}(t)\} &\rightarrow V_{IN}(f)\\
-        \mathcal{F}\{v_{out}(t)\} &\rightarrow V_{OUT}(f)\\
-    \end{split}
-    \label{eq:fourier}
-\end{equation}
-
-Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum. Hence the noise power is given by equation \ref{eq:NoisePower}.
-
-\begin{equation}
-    P_{noise} = \int_{0}^{+\infty}|N(f)|^2 
-    \label{eq:NoisePower}
-\end{equation}
-
-When implementing this, it is important to have in mind the discrete nature of code and its consequences. To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods, also because of the Nyquist theorem $+\infty$ is $F_s/2$. Because the ADC changes the signal's magnitude, the input and output spectrum were normalized.
-
-\subsubsection{Code Validation}
-
-In order to validate the code, this was tested for the ideal ADC, equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. \textcolor{red}{METER REF}
-
-\begin{equation}
-    SNR_{MAX} = 6.02\cdot n+1.76~~[\si{\decibel}]
-    \label{eq:IdealSNR}
-\end{equation}
-
-Which for a 12 bit ADC gives an ideal $SNR$ of $74~~\si{\decibel}$. The calculated value through the python scripts gives an $SNR = 73.9761~\si{\decibel}$, validating the implementation.
-
-\textcolor{red}{Decidam se querem usar estas imagens}
-
-\begin{figure}[H]
-    \centering
-
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Vin_tempo_ideal.png}
-        \caption{$v_{in}(t)$}
-        \label{fig:Vin_tempo_ideal}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Vin_ideal.png}
-        \caption{$V_{IN}(f)$}
-        \label{fig:Vin_freq_ideal}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Dout_ideal.png}
-        \caption{$V_{OUT}(f)$}
-        \label{fig:Vout_freq_ideal}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Noise_Ideal.png}
-        \caption{$N(f)$}
-        \label{fig:Noise_freq_ideal}
-    \end{subfigure}
-
-    \caption{\textcolor{red}{ADICIONAR TITULO}}
-    \label{fig:Noise Ideal}
-\end{figure}
