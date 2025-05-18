@@ -11,3 +11,295 @@ ADC to mismatch errors between the different components.}
 \textcolor{red}{Introduce specific errors into the values of key capacitors in the array (such as CB, Cdl, etc) and observe the resulting impact in the INL and DNL. Observe and explain the effect of the offset voltage on the ADC transfer function. Also compare the difference between using CB=2 or CB=16/15.}
 
 \textcolor{red}{Present a histogram of the linearity of the ADC resulting from the monte carlo analysis. Run this analysis for different magnitude of random errors in the capacitors. Present the best, worst and average INL and DNL from this analysis.}
+
+
+Explicar - para comparar com os resultados do paper, na tecnologia $\SI{65}{\nano\meter}$, com $C_u = \SI{6.5}{\femto\farad}$
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/ADC_TransFunc_All_Caps_20Ksim_s0011.png}
+    \caption{ADC's Transfer function. \textcolor{red}{Melhorar titulo}}
+
+    \label{fig:ADC_TF_ALLCAPS}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/INL_All_Caps_20Ksim_s0011.png}
+        \caption{INL}
+        \label{fig:INL_ALLCAPS}
+    \end{subfigure}%
+    
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/DNL_All_Caps_20Ksim_s0011.png}
+        \caption{DNL}
+        \label{fig:DNL_ALLCAPS}
+    \end{subfigure}
+    \caption{INL and DNL Error \textcolor{red}{Lado a Lado ou uma em cima da outra?}}
+    \label{fig:NL_ALLCAPS}
+\end{figure}
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/SNR_All_Caps_20Ksim_s0011.png}
+    \caption{ADC's SNR Distribution. \textcolor{red}{Melhorar titulo}}
+    \label{fig:ADC_SNR_ALLCAPS}
+\end{figure}
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/LIN_All_Caps_20Ksim_s0011.png}
+    \caption{ADC's Linearity Distribution. \textcolor{red}{Melhorar titulo}}
+
+    \label{fig:ADC_LIN_ALLCAPS}
+\end{figure}
+
+
+\begin{comment}
+
+$\sigma = 0.05$, $n_{sim} = 20000$
+
+#############
+IMAGENS PRA SIGMA = 0.05
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/ADC_TransFunc_All_Caps_20Ksim.png}
+    \caption{ADC's Transfer function. \textcolor{red}{Melhorar titulo}}
+
+    \label{fig:ADC_TF_ALLCAPS}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/INL_All_Caps_20Ksim.png}
+        \caption{INL}
+        \label{fig:INL_ALLCAPS}
+    \end{subfigure}%
+    
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/DNL_All_Caps_20Ksim.png}
+        \caption{DNL}
+        \label{fig:DNL_ALLCAPS}
+    \end{subfigure}
+    \caption{INL and DNL Error \textcolor{red}{Lado a Lado ou uma em cima da outra?}}
+    \label{fig:NL_ALLCAPS}
+\end{figure}
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/SNR_All_Caps_20Ksim.png}
+    \caption{ADC's SNR Distribution. \textcolor{red}{Melhorar titulo}}
+    \label{fig:ADC_SNR_ALLCAPS}
+\end{figure}
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/Vlsb_All_Caps_20Ksim.png}
+    \caption{ADC's VLSB Distribution. \textcolor{red}{Melhorar titulo}}
+    \label{fig:ADC_VLSB_ALLCAPS}
+\end{figure}
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/LIN_All_Caps_20Ksim.png}
+    \caption{ADC's Linearity Distribution. \textcolor{red}{Melhorar titulo}}
+
+    \label{fig:ADC_LIN_ALLCAPS}
+\end{figure}
+
+\end{comment}
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/Vxp_Vxn_evolution_1V_input.png}
+    \caption{$V_{xp}$ and $V_{xp}$ evolution.}
+
+    \label{fig:VxpVxnEvo}
+\end{figure}
+\textcolor{red}{SA EXPLICA ISTO PLS $\SI{1}{\volt}$ de entrada }
+
+\subsection{ $V_{\text{Offset}}$ }
+
+
+\textcolor{red}{O Voffset esta um pouco mal formatado}
+
+\begin{table}[H]
+    \centering
+    \caption{Comparison of }
+    \begin{tabularx}{\textwidth}{
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X
+      >{\centering\arraybackslash}X
+    }
+    \toprule
+    \textbf{Simulation} & \textbf{Case} & \textbf{$V_{\text{LSB}}~[\si{\milli\volt}]$} & \textbf{Linearity} & \textbf{SNR [\si{\decibel}}] & \textbf{ENOB} \\
+
+        \midrule
+        % Here: span 3 rows in first column
+        \multirow{3}{*}{
+            \makecell[c]{%
+                M.C. \\
+                All Caps.\\
+                $\sigma=5\%$
+            }%
+        } 
+        & Min & 0.4883  &  7.6203 & 49.9760 & 8.0093\\\cline{2-6}
+        & Typ & 0.4996  &  9.3414 & 58.6987 & 9.4583 \\\cline{2-6}
+        & Max & 0.5570  & 11.3255 & 70.6319 & 11.4405\\
+        \midrule
+        \multirow{3}{*}{
+            \makecell[c]{%
+                M.C. \\
+                All Caps.\\
+                $\sigma=0.11\%$
+            }%
+        } 
+        & Min & 0.4883  &  12.7887 & 73.5315 & 11.9222 \\\cline{2-6}
+        & Typ & 0.4883  &  14.1655 & 73.8946 & 11.9825\\\cline{2-6}
+        & Max & 0.4883  &  15.9817 & 73.9764 & 11.9961\\
+        \midrule
+            \multirow{3}{*}{
+            \makecell[c]{%
+                M.C. \\
+                $C_B$ \\
+                $\sigma=0.11\%$
+            }%
+        } 
+        & Min & 0.4883  &  14.4274 & 73.9264 & 11.9878 \\\cline{2-6}
+        & Typ & 0.4883  &  16.2499 & 73.9732 & 11.9956\\\cline{2-6}
+        & Max & 0.4883  &  17.2152 & 73.9787 & 11.9965\\
+        \midrule
+        \multirow{3}{*}{
+            \makecell[c]{%
+                M.C. \\
+                $C_{dl}$ \\
+                $\sigma=0.11\%$
+            }%
+        } 
+        & Min & 0.4883  &  16.6663 & 73.9754 & 11.9959 \\\cline{2-6}
+        & Typ & 0.4883  &  17.1164 & 73.9760 & 11.9960 \\\cline{2-6}
+        & Max & 0.4883  &  16.8477 & 73.9762 & 11.9961 \\
+        \midrule
+        \multirow{3}{*}{
+            \makecell[c]{%
+                $V_{\text{Offset}}$\\
+                $\in$\\
+                $[-10,\,10]\si{\milli\volt}$%
+            }%
+        } 
+        & Min & 0.4883  &  7.6506 & 53.2113 & 8.5467 \\\cline{2-6}
+        & Typ &  0.4895 &  9.0797 & 61.5979 & 9.9399 \\\cline{2-6}
+        & Max &  0.4907 & 16.3668 & 73.9729 & 11.9955\\
+      \bottomrule
+    \end{tabularx}
+    \label{tab:Results}
+\end{table}
+  
+
+
+OFSSET 
+
+$V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$
+
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/ADC_TransFunc_Voffset.png}
+    \caption{ADC's Transfer Function for different Offset. \textcolor{red}{Melhorar titulo}}
+
+    \label{fig:ADC_TF_Offset}
+\end{figure}
+
+\newpage
+\subsection{FFT ou SNR/ENOB}
+
+\begin{equation}
+    SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)}
+    \label{eq:SNDR}
+\end{equation}
+
+In order to calculate $SNDR$ a input signal was created,$v_{in}$, in this case a sine wave with frequency $\SI{1}{\hertz}$. This signal is sampled by the ADC and the output is stored, $v_{out}$.
+
+Now the Fourier Transform is computed for both.
+
+\begin{equation}
+    \begin{split}
+        \mathcal{F}\{v_{in}(t)\} &\rightarrow V_{IN}(f)\\
+        \mathcal{F}\{v_{out}(t)\} &\rightarrow V_{OUT}(f)\\
+    \end{split}
+    \label{eq:fourier}
+\end{equation}
+
+Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum. Hence the noise power is given by equation \ref{eq:NoisePower}.
+
+\begin{equation}
+    P_{noise} = \int_{0}^{+\infty}|N(f)|^2 
+    \label{eq:NoisePower}
+\end{equation}
+
+When implementing this, it is important to have in mind the discrete nature of code and its consequences. To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. Because the ADC changes the signal's magnitude, the input and output spectrum were normalized.
+
+\subsubsection{Code Validation}
+
+In order to validate the code, this was tested for the ideal ADC, equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. \textcolor{red}{METER REF}
+
+\begin{equation}
+    SNR_{MAX} = 6.02\cdot n+1.76~~[\si{\decibel}]
+    \label{eq:IdealSNR}
+\end{equation}
+
+Which for a 12 bit ADC gives an ideal $SNR$ of $74~~\si{\decibel}$. The calculated value through the python scripts gives an $SNR = 73.9761~\si{\decibel}$, validating the implementation.
+
+\textcolor{red}{Decidam se querem usar estas imagens}
+
+\begin{figure}[H]
+    \centering
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Vin_tempo_ideal.png}
+        \caption{$v_{in}(t)$}
+        \label{fig:Vin_tempo_ideal}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Vin_ideal.png}
+        \caption{$V_{IN}(f)$}
+        \label{fig:Vin_freq_ideal}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Dout_ideal.png}
+        \caption{$V_{OUT}(f)$}
+        \label{fig:Vout_freq_ideal}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Noise_Ideal.png}
+        \caption{$N(f)$}
+        \label{fig:Noise_freq_ideal}
+    \end{subfigure}
+
+    \caption{\textcolor{red}{ADICIONAR TITULO}}
+    \label{fig:Noise Ideal}
+\end{figure}
