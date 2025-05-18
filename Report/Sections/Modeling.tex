@@ -167,7 +167,7 @@ def adc(vin, dac_weights_plus, dac_weights_minus, n_bits_dac, Voffset=0):
 
 Now in order to get the ADC transitions, a ramp input signal is generated and then the transition points are collected, giving a tuple output, $\text{ADC Transitions} \longrightarrow ( D_{out}, V_{in} ) $, were $D_{out}$ is the digital output and $V_{in}$ is the analog input that first changed the code to $D_{out}$. 
 
-For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is need, for the following simulations 50 points per $V_{LSB}$ was used.
+For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is needed, for the following simulations 50 points per $V_{LSB}$ was used.
 
 
 \begin{figure}[h]
@@ -207,7 +207,7 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more the
     \label{eq:SNDR}
 \end{equation}
 
-In order to calculate $SNDR$ a input signal was created,$v_{in}$ , in this case a sine wave with frequency $\SI{1}{\hertz}$. This signal is sampled by the ADC and the output is stored, $v_{out}$.
+In order to calculate $SNDR$ an input signal was created,$v_{in}$ , in this case a sine wave with frequency $\SI{1}{\hertz}$. This signal is sampled by the ADC and the output is stored, $v_{out}$.
 
 Now the Fourier Transform is computed for both.
 
@@ -226,11 +226,11 @@ Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum. Hence th
     \label{eq:NoisePower}
 \end{equation}
 
-When implementing this, it's important to remember that code operates in discrete time, which has specific effects.  To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. According to the Nyquist theorem, the maximum frequency that can be accurately represented is $F_s/2$, therefore the integral is ends at $F_s/2$ and not $+\infty$. By using a high sampling rate and a low input frequency, the noise introduced during sampling becomes negligible. To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods.
+When implementing this, it is important to remember that code operates in discrete time, which has specific effects.  To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. According to the Nyquist theorem, the maximum frequency that can be represented is $F_s/2$, therefore the integral is ends at $F_s/2$ and not $+\infty$. By using a high sampling rate and a low input frequency, the noise introduced during sampling becomes negligible.
 
 \subsubsection{Code Validation}
 
-In order to validate the code, this was tested for the ideal ADC, equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. \textcolor{red}{METER REF}
+To validate the code, this was tested for the ideal ADC, Equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. \textcolor{red}{METER REF}
 
 \begin{equation}
     SNR_{MAX} = 6.02\cdot n+1.76~~[\si{\decibel}]
