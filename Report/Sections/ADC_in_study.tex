@@ -49,6 +49,9 @@ Observing the top-level architecture of the ADC depicted in Figure \ref{fig:ADC-
 
 The ADC operates in a two-phase clocking scheme, where the first phase is dedicated to sampling the input voltages onto the capacitors of the Capacitor-DAC, while the second phase is used for the conversion process. The asynchronous SAR logic controls the DAC and performs a binary search, allowing for fast and efficient operation.
 
+\subsection{Capacitor-DAC}
+\label{sec:CDAC}
+The Capacitor-DAC is a crucial component of the ADC, as it is responsible for converting the sampled input voltages into a digital representation. The Capacitor-DAC consists of an array of capacitors that are switched to create a voltage divider network. The output voltage of the Capacitor-DAC is then compared to the reference voltage to determine the digital output of the ADC though the dynamic comparator.
 The Capacitor-DAC is a crucial component of the ADC, as it is responsible for converting the sampled input voltages into a digital representation. The CDAC consists of an array of capacitors that are switched to create a voltage divider network (used in binary search of the SAR logic block). The output voltage of the Capacitor-DAC is then compared to its differential equal to determine the digital output of the ADC though the dynamic comparator.
 
 The C-DAC in study has a particular architecture that allows it to achieve high precision and low power consumption. 
