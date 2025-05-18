@@ -7,10 +7,11 @@ your analysis. Suggestion: first analyze the MSB sub-array separately.Explain ho
 
 \subsection{Digital to Analog Converter Analysis}
 
-Para analisar o circuit primeiro dividir porque é diferencial. e analisar primeiro o DacCirc
+A SAR ADC fundamentally implements a binary-search conversion by using a capacitive DAC to generate successive approximations of the input voltage. This makes the DAC the most important block to analise in this ADC. 
 
-Explicar que o codigo é dividido em dois codigos
-Falar dos split caps
+For theoretical analysis, we collapse the differential front-end into a pseudo-single-ended equivalent, making the analysis simpler, the analyzed circuit is represented in Figure \ref{fig:DAC_Circ}. 
+
+It is important to note that the DAC code is divided in Most Significant Bits (MSB) and Least Significant Bits (LSB), in the circuit this division is provided by the capacitor $C_B$.
 
 \begin{figure}[H]
     \centering
@@ -19,7 +20,10 @@ Falar dos split caps
     \label{fig:DAC_Circ}
 \end{figure}
 
-explicar que para modelar o DAC só é preciso ver como mudar a fonte de um cap afeta o no.
+Each DAC capacitor's bottom plate is alternately connected to either ground (0 V) or the reference voltage $V_{ref}$. During conversion, that switching injects or removes charge proportional to the capacitor's value and the switch state (0 or 1). Hence in order to model the circuit behavior can be modeled as a voltage source with value $b_n\cdot C_n$. 
+
+
+For phase an arbitrary phase $\phi_n$, the circuit is represented by Figure \ref{fig:P1_Circ}. If this phase is the sampling phase, $V_x = V_{in}$ and all capacitors are connected to ground, with the exception of the split capacitors these are represented as $C_{bi}$, where the $i$ is the number of the capacitor/bit.
 
 \begin{figure}[H]
 
@@ -30,45 +34,57 @@ explicar que para modelar o DAC só é preciso ver como mudar a fonte de um cap 
     \label{fig:P1_Circ}
 \end{figure}
 
-For phase $\phi_n$ the sum of charges at the node $V_x$ is:
+
+Analysing the sum of charges at the node $V_x$ during phase $\phi_n$, the Equation \ref{eq:ChargeP1} is obtained.
 
 \begin{equation}
     Q_{\phi_n} = (V_x^{\phi_n}-V_y^{\phi_n})\cdot C_B + V_x^{\phi_n}\cdot \underbrace{ \left ( C_B + \sum_{i=0}^{I}C_i \right )}_{C_{MT}}-V_r\cdot \left ( \sum_{i=0}^{I} C_i\cdot b_i \right )^{\phi_n}
+    \label{eq:ChargeP1}
 \end{equation}
 
-Similarly for phase $\phi_{n+1}$
+Similarly for phase $\phi_{n+1}$, the Equation \ref{eq:ChargeP2}.
 
 \begin{equation}
     Q_{\phi_{n+1}} = (V_x^{\phi_{n+1}}-V_y^{\phi_{n+1}})\cdot C_B + V_x^{\phi_{n+1}}\cdot C_{MT}-V_r\cdot \left ( \sum_{i=0}^{I} C_i\cdot b_i \right )^{\phi_{n+1}}
+    \label{eq:ChargeP2}
 \end{equation}
 
 Therefore with $Q_{\phi_{n}}=Q_{\phi_{n+1}}$:
 
 \begin{equation}
     \begin{split}
-        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} +  \frac{ V_r\overbrace{\sum_{i}\left[ (C_i\cdot b_i)^{\phi_{n+1}} - (C_i\cdot b_i)^{\phi_{n}}\right]}^{\Delta C_i}+C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_T} \\
-        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} + V_r \frac{ V_r \Delta C_i +C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_T}
+        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} +  \frac{ V_r\overbrace{\sum_{i}\left[ (C_i\cdot b_i)^{\phi_{n+1}} - (C_i\cdot b_i)^{\phi_{n}}\right]}^{\Delta C_i}+C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_{MT}} \\
+        V_x^{\phi_{n+1}} &= V_x^{\phi_{n}} + V_r \frac{ V_r \Delta C_i +C_B\cdot \left(V_y^{\phi_{n+1}}-V_y^{\phi_{n}}\right)}{C_{MT}}
     \end{split}
     \label{eq:VxPn}
 \end{equation}
 
-explicar que como estou a subtrair os caps ligados aos desligados so conta os caps a fazer transicao +Ci de 0 pra vr e -ci vice versa.
+Assessing Equation \ref{eq:VxPn}, Capacitors that remain connected to the same source between phases, do not contribute to the net change in charge. The capacitors that change state between phases are represented as $\Delta C_i$. This means that if a capacitor changes from ground to $V_{ref}$, $\Delta C_i = C_i$ but in the case were it changes from $V_{ref}$ to ground,  $\Delta C_i = -C_i$, this will be important for the split capacitors.
 
-Agora pra Vy 
+Now to discover the value of $V_y$, the process is similar. 
+
 \begin{equation}
     Q_{\phi_{n}} = V_y^{\phi_n}\underbrace{\left( \sum_{j=0}^{J}C_j \right)}_{C_{LT}} + (V_y^{\phi_{n}}-V_x^{\phi_{n}})C_B-V_r\cdot \left ( \sum_{j=0}^{J} C_j\cdot b_j \right )^{\phi_n}
+    \label{eq:VyP1}
 \end{equation}
 
 \begin{equation}
     Q_{\phi_{n+1}} = V_y^{\phi_{n+1}}\underbrace{\left( \sum_{j=0}^{J}C_j \right)}_{C_{LT}} + (V_y^{\phi_{n+1}}-V_x^{\phi_{n+1}})C_B-V_r\cdot \left ( \sum_{j=0}^{J} C_j\cdot b_j \right )^{\phi_n+1}
+    \label{eq:VyP2}
 \end{equation}
+
+Solving Equation \ref{eq:VyP1} and Equation \ref{eq:VyP2}, $V_{y}^{\phi_{n+1}}$ is obtained, Equation \ref{eq:Vy}.
 
 \begin{equation}
     V_y^{\phi_{n+1}}-V_y^{\phi_{n+1}} = C_B\cdot (V_x^{\phi_{n+1}}-V_x^{\phi_n}) + V_r\Delta C_j
+    \label{eq:Vy}
 \end{equation}
+
+Substituting, $V_y^{\phi_{n+1}}-V_y^{\phi_{n+1}}$ in Equation \ref{eq:VxPn} and simplifying, Equation \ref{eq:DeltaVx} is obtained.
 
 \begin{equation}
     \boxed{V_{x}^{\phi_{n+1}}=V_{x}^{\phi_n}+V_{r}\frac{   {\Delta}C_{Mi} (C_{B} + \sigma_{LC} )+C_{B} {\Delta}C_{Li}}{C_{B}\left( \sigma_{LC} + \sigma_{MC}\right) + \sigma_{LC} \sigma_{MC}}}
+    \label{eq:DeltaVx}
 \end{equation}
-provando que o valor atual depende apenas do valor anterior e dos caps que mudaram.
 
+Evaluating Equation \ref{eq:DeltaVx}, a conclusion can be made that $V_x^{\phi_{n+1}}$ only depends on the previous value and how the capacitors change independently. This will be helpful for implementation. 
