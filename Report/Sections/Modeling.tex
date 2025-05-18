@@ -85,9 +85,11 @@ Figure \ref{fig:IdealDAC} was obtained by sweeping all codes and computing the I
 
 \subsection{ADC}
 
-The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{xn}$ evolution, debug and validation is easier.
+The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{xn}$ evolution after each iteration, i.e., after each comparison of the comparator of the ADC, and the contribution of the DAC for $V_{xp}$ and $V_{xn}$. With this function, the debug and validation of the ADC is easier.
 
 \textcolor{red}{explicar a funcao ? @Sa esta comentada no latex em baixo deste texto}
+
+\textcolor{red}{Acho que não vale a pena, metemos o codigo todo em anexo, mesmo para a parte a seguir, metemos um flowchart}
 
 \begin{comment}
     
@@ -123,7 +125,10 @@ The first step in the ADC modeling is to make a function that mimics the ADC's p
 
     \label{fig:VxpVxnEvo}
 \end{figure}
-\textcolor{red}{SA EXPLICA ISTO PLS $\SI{1}{\volt}$ de entrada }
+
+As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common node, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the split capacitors topology present in the higher values capacitors. Although this topology does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
+
+This maintenance of the central value is what guarantees that the differential value between $V_{xp}$ and $V_{xn}$ represents the original input value of $V_{in}$.
 
 Now having confirmed the ADC functionality a simpler function was developed, since there is no need to keep the values of both nodes.
 The first simplification made was to the circuit's differential nature, the comparator's output, with $V_{Offset}$ effect, is shown in Equation \ref{eq:CompOut}.
@@ -196,6 +201,9 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more the
 \end{figure}
 
 \textcolor{red}{Dizer que tem erro mas é pq o input nao é verdadeiramente analogico}
+
+\textcolor{red}{Metia ainda uma imagem zoomed da função de transferencia para ser ver bem os steps}
+
 
 
 \subsection{FFT ou SNR/ENOB}
