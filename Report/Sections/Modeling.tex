@@ -54,7 +54,7 @@ In this step is important to remember that the this is a differential circuit, o
     \label{eq:VDAC}
 \end{equation}
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
 
     \begin{subfigure}[b]{0.9\textwidth}
@@ -115,7 +115,7 @@ The first step in the ADC modeling is to make a function that mimics the ADC's p
         res   += bit_masks[i]*b_aux
 \end{comment}
 
-\begin{figure}[H]
+\begin{figure}[h]
 
     \centering
     \includegraphics*[width=0.9\textwidth]{Images/Vxp_Vxn_evolution_1V_input.png}
@@ -152,7 +152,7 @@ def adc(vin, dac_weights_plus, dac_weights_minus, n_bits_dac, Voffset=0):
 \end{lstlisting}
 
 
-\begin{figure}[H]
+\begin{figure}[h]
 
     \centering
     \includegraphics*[width=0.8\textwidth]{Images/ADCPythonFlowChart.png}
@@ -168,7 +168,7 @@ Now in order to get the ADC transitions, a ramp input signal is generated and th
 For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is need, for the following simulations 50 points per $V_{LSB}$ was used.
 
 
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
 
     \begin{subfigure}[b]{0.9\textwidth}
