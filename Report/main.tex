@@ -5,6 +5,7 @@
 % ----------------------------------------------------------------------
 \usepackage[utf8]{inputenc} % Codification
 \usepackage[english]{babel} % Writing idiom
+\usepackage{comment}
 
 \usepackage[export]{adjustbox} % Align images
 \usepackage{amsmath} %a Extra commands for math mode
@@ -43,24 +44,48 @@
 
 %code
 \usepackage[breakable]{tcolorbox}
-
 % Code highlighting
 \usepackage{listings}
-\lstset{ 
-    backgroundcolor=\color{cellbackground}, % background color for the code block
-    basicstyle=\ttfamily,                   % font style
-    breakatwhitespace=false,                % automatic breaks only at whitespace
-    breaklines=true,                        % automatic line breaking
-    captionpos=b,                           % caption position
-    commentstyle=\color{gray},              % comment style
-    escapeinside={\%*}{*)},                 % if you want to add LaTeX within your code
-    keywordstyle=\color{blue},              % keyword style
-    stringstyle=\color{dkgreen},            % string style
-    frame=single,                           % adds a frame around the code
-    rulecolor=\color{cellborder},           % border color
+\usepackage{xcolor}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4
 }
 
-\usepackage{comment}
+%\lstset{ 
+%    backgroundcolor=\color{cellbackground}, % background color for the code block
+%    basicstyle=\ttfamily,                   % font style
+%    breakatwhitespace=false,                % automatic breaks only at whitespace
+%    breaklines=true,                        % automatic line breaking
+%    captionpos=b,                           % caption position
+%    commentstyle=\color{gray},              % comment style
+%    escapeinside={\%*}{*)},                 % if you want to add LaTeX within your code
+%    keywordstyle=\color{blue},              % keyword style
+%    stringstyle=\color{dkgreen},            % string style
+%    frame=single,                           % adds a frame around the code
+%    rulecolor=\color{cellborder},           % border color
+%}
 
 %---------TIKZ CONFIG---------%
 %Block diagram
