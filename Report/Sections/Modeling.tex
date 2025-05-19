@@ -128,7 +128,7 @@ The first step in the ADC modeling is to make a function that mimics the ADC's p
     \label{fig:VxpVxnEvo}
 \end{figure}
 
-As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common-node voltage, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the split capacitors configuration present in the higher values capacitors, mentioned before. Although this architecture does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
+As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common-node voltage, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the split capacitors \textcolor{red}{Aqui nao ]e hybrid ?} configuration present in the higher values capacitors, mentioned before. Although this architecture does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
 
 This maintenance of the central value is what guarantees that the differential value between $V_{xp}$ and $V_{xn}$ represents the original input value of $V_{in}$, confirming the ADC model presented is working properly.
 
@@ -141,22 +141,6 @@ The first simplification made was to the circuit's differential nature, the comp
 \end{equation}
 
 \textcolor{red}{DECIDIR CODIGO OU FLOWCHART}
-
-\begin{lstlisting}[caption={ADC Function}]
-def adc(vin, dac_weights_plus, dac_weights_minus, n_bits_dac, Voffset=0):
-    ind   = n_bits_dac  
-    b_aux = vin > 0
-    res = bit_masks[n_bits_dac]*b_aux
-
-    for i in range(n_bits_dac-1, -1, -1):
-        vin  += dac_weights_plus[i][np.uint8(not b_aux)] \\
-              - dac_weights_minus[i][np.uint8(b_aux)]
-        b_aux = vin > Voffset
-        ind  -= 1
-        res  += bit_masks[i]*b_aux
-
-    return res
-\end{lstlisting}
 
 
 \begin{figure}[h]
@@ -175,7 +159,7 @@ Now in order to get the ADC transitions, a ramp input signal is generated and th
 For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is needed, for the following simulations 50 points per $V_{LSB}$ was used.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
 
     \begin{subfigure}[b]{0.9\textwidth}
@@ -211,7 +195,7 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more the
 \subsection{FFT ou SNR/ENOB}
 
 \begin{equation}
-    SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)}
+    SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)} \textsuperscript{\cite{analogIntegratedCircBook}}
     \label{eq:SNDR}
 \end{equation}
 
