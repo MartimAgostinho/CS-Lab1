@@ -128,7 +128,7 @@ The first step in the ADC modeling is to make a function that mimics the ADC's p
     \label{fig:VxpVxnEvo}
 \end{figure}
 
-As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common-node voltage, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the split capacitors \textcolor{red}{Aqui nao ]e hybrid ?} configuration present in the higher values capacitors, mentioned before. Although this architecture does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
+As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common-node voltage, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the hybrid capacitors configuration present in the higher values capacitors, mentioned before. Although this architecture does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
 
 This maintenance of the central value is what guarantees that the differential value between $V_{xp}$ and $V_{xn}$ represents the original input value of $V_{in}$, confirming the ADC model presented is working properly.
 
@@ -222,7 +222,7 @@ When implementing this, it is important to remember that code operates in discre
 
 \subsubsection{Code Validation}
 
-To validate the code, this was tested for the ideal ADC, Equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. \textcolor{red}{METER REF}
+To validate the code, this was tested for the ideal ADC, Equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. 
 
 \begin{equation}
     SNR_{MAX} = 6.02\cdot n+1.76~~[\si{\decibel}] \textsuperscript{\cite{analogIntegratedCircBook}}
