@@ -22,7 +22,7 @@ To test and simulate the ADC transfer function, and since there are no ideal val
 Depending on manufacturing specifics, there are different ways to define how the capacitors variation will behave. If the capacitors are built by summing unitary capacitors with independent variations, the variation will decrease. For the Monte Carlo analysis, this was \textbf{not} assumed, the same variation was used for all capacitor sizes.
 %First, to test the response of the ADC to the variation of the capacitors values, that respect a normal distribution, with defined variance $\sigma$ of the unit capacitor.
 
-To guarantee a viable result of the Monte Carlo analysis, a total of $20.000$ simulations with different values were executed, resulting in the Transfer Functions presented in Figure \ref{fig:ADC_TF_ALLCAPS}.
+To guarantee a viable result of the Monte Carlo analysis, a total of $20~000$ simulations with different values were executed, resulting in the Transfer Functions presented in Figure \ref{fig:ADC_TF_ALLCAPS}.
 
 \begin{figure}[H]
 
@@ -75,9 +75,9 @@ Finally, it is also possible to observe the distributions of the ADC's SNR and L
     \label{fig:ADC_LIN_ALLCAPS}
 \end{figure}
 
-The distribution of the ADC's SNR is represented by a left-skewed distribution, with a mean value of approximately $73.85\si{\decibel}$, validating the value obtained previously.
+The distribution of the ADC's SNR is represented by a left-skewed distribution, with a mean value of approximately $\SI{73.85}{\decibel}$, validating the value obtained previously.
 
-Regarding the Linearity distribution, this is represented by a normal distribution, equl to the distribution of the capacitor values, with a mean of $14,25bits$, approximately, higher than the $12bits$ resolution of the ADC, which means, the resolution presented is supported by the converter.
+Regarding the Linearity distribution, this is represented by a normal distribution, equl to the distribution of the capacitor values, with a mean of $14.25$ bits, approximately, higher than the $12$ bits resolution of the ADC, which means, the resolution presented is supported by the converter.
 
 \begin{comment}
 
