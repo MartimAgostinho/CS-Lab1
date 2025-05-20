@@ -13,7 +13,7 @@ Hence, the first step in modeling the DAC is creating a function that precompute
 \begin{table}[h]
 
     \centering
-    \caption{DAC Bit weights}
+    \caption{DAC Bit weights.}
     \begin{tabularx}{\textwidth}{
         >{\centering\arraybackslash}X 
         >{\centering\arraybackslash}X 
@@ -54,24 +54,24 @@ Now, with the weights computed the DAC output is show in Figure \ref{fig:DAC_TF}
     \begin{subfigure}[b]{0.9\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/DAC_TransFunc_ideal.png}
-        \caption{Ideal DAC Transfer Function}
+        \caption{Ideal DAC Transfer Function.}
         \label{fig:DAC_TF}
     \end{subfigure}%
 
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/DAC_DNL_ideal.png}
-        \caption{Ideal DAC DNL}
+        \caption{Ideal DAC DNL.}
         \label{fig:DAC_DNL}
     \end{subfigure}%
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/DAC_INL_ideal.png}
-        \caption{Ideal DAC INL}
+        \caption{Ideal DAC INL.}
         \label{fig:DAC_INL}
     \end{subfigure}
 
-    \caption{DAC validation}
+    \caption{DAC validation.}
     \label{fig:IdealDAC}
 \end{figure}
 
@@ -151,20 +151,20 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more tha
     \begin{subfigure}[b]{0.9\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/ADC_TransFunc_Ideal.png}
-        \caption{Ideal ADC Transfer Function}
+        \caption{Ideal ADC Transfer Function.}
         \label{fig:ADC_TF_Ideal}
     \end{subfigure}%
 
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/DNL_Ideal.png}
-        \caption{Ideal ADC DNL}
+        \caption{Ideal ADC DNL.}
         \label{fig:ADC_DNL_Ideal}
     \end{subfigure}%
     \begin{subfigure}[b]{0.5\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/INL_Ideal.png}
-        \caption{Ideal ADC INL}
+        \caption{Ideal ADC INL.}
         \label{fig:ADC_INL_Ideal}
     \end{subfigure}
 
@@ -174,7 +174,7 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more tha
 
 The values of INL and DNL for the ideal ADC, unlike the values for the DAC, were not equal to $0$ LSB, since the input for the ADC was not a real continuos signal, only an array of point, mimicking this analog input, resulting in a lack of precision, this result is shown in Firures \ref{fig:ADC_DNL_Ideal} and \ref{fig:ADC_INL_Ideal}.
 
-\subsection{FFT, SNR and ENOB}
+\subsection{Spectral Analysing}
 
 \begin{equation}
     SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)} \textsuperscript{\cite{analogIntegratedCircBook}}
@@ -206,30 +206,30 @@ Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum, the grap
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Vin_tempo_ideal.png}
-        \caption{$v_{in}(t)$ - Input signal}
+        \caption{$v_{in}(t)$ - Input signal.}
         \label{fig:Vin_tempo_ideal}
     \end{subfigure}%
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Vin_ideal.png}
-        \caption{$V_{IN}(f)$ - Fourier Transform of $v_{in}(t)$}
+        \caption{$V_{IN}(f)$ - Fourier Transform of $v_{in}(t)$.}
         \label{fig:Vin_freq_ideal}
     \end{subfigure}
 
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Dout_ideal.png}
-        \caption{$V_{OUT}(f)$ - Fourier Transform $v_{out}(t)$} 
+        \caption{$V_{OUT}(f)$ - Fourier Transform $v_{out}(t)$.} 
         \label{fig:Vout_freq_ideal}
     \end{subfigure}%
     \begin{subfigure}[b]{0.4\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Images/Noise_Ideal.png}
-        \caption{$N(f)$ - Noise Spectrum}
+        \caption{$N(f)$ - Noise Spectrum.}
         \label{fig:Noise_freq_ideal}
     \end{subfigure}
 
-    \caption{Noise spectrum for ideal ADC}
+    \caption{Noise spectrum for ideal ADC.}
     \label{fig:Noise Ideal}
 \end{figure}
 
