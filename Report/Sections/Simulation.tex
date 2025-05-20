@@ -204,7 +204,7 @@ The final values for every variation and non-ideal value considered in the analy
         \midrule
         % Here: span 3 rows in first column
         \multirow{3}{*}{
-            \makecell[c]{%
+            \makecell[c]{%  
                 M.C. \\
                 All Caps.\\
                 $\sigma=5\%$
@@ -341,56 +341,6 @@ The final values for every variation and non-ideal value considered in the analy
 \end{table}
 
 \textcolor{red}{Pior mass com menos variacao entre casos, com correcao ]e melhor  O vlsb ]e menor que o real }
-
-
-
-\subsection{10.5 Linearidade \textcolor{red}{TITULO}}
-
-\textcolor{red}{Vejam se querem a tabela}
-\begin{table}[H]
-    \centering
-    \caption{Monte Carlo (M.C.) $\sigma = 0.01$}
-    \begin{tabularx}{\textwidth}{
-      >{\centering\arraybackslash}X 
-      >{\centering\arraybackslash}X 
-      >{\centering\arraybackslash}X 
-      >{\centering\arraybackslash}X 
-      >{\centering\arraybackslash}X
-      >{\centering\arraybackslash}X
-    }
-    \toprule
-    \textbf{Simulation} & \textbf{Case} & \textbf{$V_{\text{LSB}}~[\si{\milli\volt}]$} & \textbf{Linearity} & \textbf{SNR [\si{\decibel}}] & \textbf{ENOB} \\
-
-        \midrule
-        % Here: span 3 rows in first column
-        \multirow{3}{*}{
-            \makecell[c]{%
-                M.C. \\
-                All Caps.\\
-                $\sigma=1\%$
-            }%
-        } 
-
-        & Min & 0.4849 &   9.7896 &  53.4049  &  8.5789  \\\cline{2-6}
-        & Typ & 0.4850 &   11.1765 &  55.0371  &  8.7534 \\\cline{2-6}
-        & Max & 0.4906 &   12.8408 &  54.4554  &  8.8500 \\
-
-      \bottomrule
-    \end{tabularx}
-    \label{tab:ResultsLin105}
-\end{table}
-
-For $\sigma = 0.01$, 96.55\% of results had a linearity of $10.5$ or bigger.
-
-\begin{figure}[H]
-
-    \centering
-    \includegraphics*[width=0.8\textwidth]{Images/Lin_s01.png}
-    \caption{ADC's Linearity distribution for $\sigma = 0.01$.}
-
-    \label{fig:Lin_Dist_s01}
-\end{figure}
-
 
 \newpage
 
