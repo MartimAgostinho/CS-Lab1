@@ -28,7 +28,7 @@ To guarantee a viable result of the Monte Carlo analysis, $20~000$ simulations w
 
     \centering
     \includegraphics*[width=0.9\textwidth]{Images/ADC_TransFunc_All_Caps_20Ksim_s0011.png}
-    \caption{ADC's Transfer function. \textcolor{red}{Melhorar titulo}}
+    \caption{ADC's Transfer function for Capacitor values variation}
 
     \label{fig:ADC_TF_ALLCAPS}
 \end{figure}
@@ -50,7 +50,7 @@ Since the ADC in analysis has a resolution of 12 bits, it is not possible to see
         \caption{DNL}
         \label{fig:DNL_ALLCAPS}
     \end{subfigure}
-    \caption{INL and DNL Error \textcolor{red}{Lado a Lado ou uma em cima da outra?}}
+    \caption{INL and DNL Error for Capacitor values variation}
     \label{fig:NL_ALLCAPS}
 \end{figure}
 
@@ -62,7 +62,7 @@ Finally, it is also possible to observe the distributions of the ADC's SNR and L
 
     \centering
     \includegraphics*[width=0.8\textwidth]{Images/SNR_All_Caps_20Ksim_s0011.png}
-    \caption{ADC's SNR Distribution. \textcolor{red}{Melhorar titulo}}
+    \caption{ADC's SNR Distribution.}
     \label{fig:ADC_SNR_ALLCAPS}
 \end{figure}
 
@@ -70,7 +70,7 @@ Finally, it is also possible to observe the distributions of the ADC's SNR and L
 
     \centering
     \includegraphics*[width=0.8\textwidth]{Images/LIN_All_Caps_20Ksim_s0011.png}
-    \caption{ADC's Linearity Distribution. \textcolor{red}{Melhorar titulo}}
+    \caption{ADC's Linearity Distribution.}
 
     \label{fig:ADC_LIN_ALLCAPS}
 \end{figure}
@@ -146,23 +146,21 @@ IMAGENS PRA SIGMA = 0.05
 \subsection{ $V_{\text{Offset}}$ }
 
 
-OFSSET 
+To test the influence of the offset voltage variation in the comparator, a sweep in these value was made, between the values of $V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$. The resulting ADC's Transfer Functions are displayed in Figure \ref{fig:ADC_TF_Offset}.
 
-$V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$
 
 
 \begin{figure}[H]
 
     \centering
     \includegraphics*[width=0.8\textwidth]{Images/ADC_TransFunc_Voffset.png}
-    \caption{ADC's Transfer Function for different Offset. \textcolor{red}{Melhorar titulo}}
+    \caption{ADC's Transfer Function for different $V_{offset}$.}
 
     \label{fig:ADC_TF_Offset}
 \end{figure}
 
+To better see the result of the variationn of the offset voltage, the INL and DNL were calculated, resulting in the graphics shown in Figure \ref{fig:NL_Voffset}.
 
-
-\textcolor{red}{O Voffset esta um pouco mal formatado}
 
 \begin{figure}[H]
     \centering
@@ -179,9 +177,11 @@ $V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$
         \caption{DNL}
         \label{fig:DNL_Voffset}
     \end{subfigure}
-    \caption{INL and DNL Error \textcolor{red}{Lado a Lado ou uma em cima da outra?}}
+    \caption{INL and DNL Error for $V_{offset}$ variation}
     \label{fig:NL_Voffset}
 \end{figure}
+
+After analysing the INL and DNL errors, it is possible to conclude that exist missing codes with this variation, with a steep variation in both metrics around $0V$, i.e. when the input signal varies between a positive and a negative value.
 
 \subsection{Final Results}
 
@@ -189,7 +189,7 @@ The final values for every variation and non-ideal value considered in the analy
 
 \begin{table}[H]
     \centering
-    \caption{Monte Carlo (M.C.) comparisons. $C_B = 15/16$}
+    \caption{Monte Carlo (M.C.) comparisons. $C_B = 16/15$}
     \begin{tabularx}{\textwidth}{
       >{\centering\arraybackslash}X 
       >{\centering\arraybackslash}X 
@@ -341,6 +341,7 @@ The final values for every variation and non-ideal value considered in the analy
 \end{table}
 
 \textcolor{red}{Pior mass com menos variacao entre casos, com correcao ]e melhor  O vlsb ]e menor que o real }
+
 
 
 \subsection{10.5 Linearidade \textcolor{red}{TITULO}}
