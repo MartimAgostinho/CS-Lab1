@@ -34,8 +34,8 @@ In this report, the DEC error correction technique is not discussed, as it is no
 
 Observing the top-level architecture of the ADC depicted in Figure \ref{fig:ADC-block-diagram}, we can identify the following key components:
 \begin{itemize}
-    \item Differential Input Stage: In this stage the bootstrapped switches are used to sample at $100 \si{\mega S \per \second}$ the differential input voltages ($V_{IP}$ and $V_{IN}$) onto the capacitors of the Capacitor-DAC 
-    \item Capacitor-DAC;
+    \item Differential Input Sampling and Hold Stage: In this stage the bootstrapped switches are used to sample at $100 \si{\mega S \per \second}$ the differential input voltages ($V_{IP}$ and $V_{IN}$) onto the capacitors of the Capacitive-DAC 
+    \item Capacitive-DAC;
     \item Dynamic comparator;
     \item Asynchronous SAR logic;
 \end{itemize}
@@ -47,12 +47,11 @@ Observing the top-level architecture of the ADC depicted in Figure \ref{fig:ADC-
     \label{fig:ADC-block-diagram}
 \end{figure}
 
-The ADC operates in a two-phase clocking scheme, where the first phase is dedicated to sampling the input voltages onto the capacitors of the Capacitor-DAC, while the second phase is used for the conversion process. The asynchronous SAR logic controls the DAC and performs a binary search, allowing for fast and efficient operation.
+The ADC operates in a two-phase clocking scheme, where the first phase is dedicated to sampling the input voltages onto the capacitors of the Capacitive-DAC, while the second phase is used for the conversion process. The asynchronous SAR logic controls the DAC and performs a binary search, allowing for fast and efficient operation.
 
-\subsection{Capacitor-DAC}
+\subsection{Capacitive-DAC}
 \label{sec:CDAC}
-The Capacitor-DAC is a crucial component of the ADC, as it is responsible for converting the sampled input voltages into a digital representation. The Capacitor-DAC consists of an array of capacitors that are switched to create a voltage divider network. The output voltage of the Capacitor-DAC is then compared to the reference voltage to determine the digital output of the ADC though the dynamic comparator.
-The Capacitor-DAC is a crucial component of the ADC, as it is responsible for converting the sampled input voltages into a digital representation. The CDAC consists of an array of capacitors that are switched to create a voltage divider network (used in binary search of the SAR logic block). The output voltage of the Capacitor-DAC is then compared to its differential equal to determine the digital output of the ADC though the dynamic comparator.
+The Capacitive-DAC is a crucial component of the ADC, as it is responsible for converting the sampled input voltages into a digital representation. The CDAC consists of an array of capacitors that are switched to create a voltage divider network (used in binary search of the SAR logic block). The output voltage of the Capacitive-DAC is then compared to the reference voltage to determine the digital output of the ADC though the dynamic comparator. In this case since we have a fully differential ADC the reference voltage is the voltage of the symetric branch of the ADC, there is, the output voltage of the symetrical CDAC.
 
 The C-DAC in study has a particular architecture that allows it to achieve high precision and low power consumption. 
 For the sake of simplicity and because the circuit is symmetrical, we will only discuss the CDAC of one of branches, because they are equal. The CDAC implemented in each branch is shown in Figure \ref{fig:CDAC-sch}. 
@@ -97,10 +96,10 @@ In table \ref{tab:cap-numbers} we can see the number of capacitors used in the C
 \end{table}
 
 \subsubsection{Hybrid Capacitor Configuration}  
-The hybrid configuration is applied only to the MSB array, as it dominates DAC performance. The LSB array uses a traditional binary-weighted structure, as its smaller capacitors minimally impact the common-mode voltage. Each MSB capacitor is split into two sub-capacitors ($C_{ia}$, $C_{ib}$). During sampling, $C_{ia}$ connects to $V_{\text{REFP}}$ (1.2 V) and $C_{ib}$ to $V_{\text{REFN}}$ (0 V). During conversion, only one sub-capacitor switches, while the other remains fixed. This design improves three key characteristics:  
+The hybrid configuration is applied only to the MSB array, as it dominates DAC performance. The LSB array uses a traditional binary-weighted structure, the fact that it has smaller capacitors they have minimal impact in the common-mode voltage. Each MSB capacitor is split into two sub-capacitors ($C_{ia}$, $C_{ib}$). During sampling, $C_{ia}$ connects to $V_{\text{REFP}}$ (1.2 V) and $C_{ib}$ to $V_{\text{REFN}}$ (0 V). During conversion, only one sub-capacitor switches, while the other remains fixed. This design improves three key characteristics:  
 
 \textbf{Common-Mode Voltage}  
-Conventional SAR ADCs suffer from $V_{\text{cm}}$ fluctuations during capacitor switching, introducing noise and offset errors. By switching only one sub-capacitor, the hybrid configuration stabilizes $V_{\text{cm}}$ at 0.6 V (midpoint of $V_{\text{REFP}}$ and $V_{\text{REFN}}$). This reduces kickback noise and settling time, enabling a high ENOB.
+Conventional SAR ADCs suffer from $V_{\text{cm}}$ fluctuations during capacitor switching, introducing noise and offset errors. By switching only one sub-capacitor, the hybrid configuration stabilizes $V_{\text{cm}}$ at 0.6 V (midpoint of $V_{\text{REFP}}$ and $V_{\text{REFN}}$). This reduces the kickback noise of the comparator and settling time, enabling a high ENOB.
 
 \textbf{Energy Consumption}  
 Traditional binary-weighted arrays require switching large capacitors, leading to high dynamic power. The hybrid configuration reduces energy by 50\%: only one sub-capacitor toggles per decision. In this way the energy consumed per conversion step is reduced.
@@ -120,4 +119,4 @@ The process continues until all 12 bits are converted, with the digital output b
     \label{fig:ADC-flowchart}
 \end{figure}
 
-\textcolor{red}{Carefully read the paper to understand the operation of the ADC (Fig. 1). If necessary, obtain and read papers cited by this paper. Explain why the authors decided to use a hybrid capacitor configuration and why they use the split capacitor array.}
+% \textcolor{red}{Carefully read the paper to understand the operation of the ADC (Fig. 1). If necessary, obtain and read papers cited by this paper. Explain why the authors decided to use a hybrid capacitor configuration and why they use the split capacitor array.}

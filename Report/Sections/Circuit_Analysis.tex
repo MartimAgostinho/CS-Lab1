@@ -1,10 +1,6 @@
 \section{Circuit Analysis}
 \label{sec:circuit_analysis}
 
-\textcolor{red}{Analyze the capacitor array circuits (shown in Fig. 1 in the paper) to obtain the
-expression of the capacitor array voltages (Vxp and Vxn) as a function of vin, the control bits and the capacitors values. Use the charge conservation principle in
-your analysis. Suggestion: first analyze the MSB sub-array separately.Explain how you obtained the expressions and present the expressions in a readable format.}
-
 In this section, we will analyze the circuit of the ADC, focusing on the CDAC.
 
 \subsection{Digital to Analog Converter Analysis}
@@ -90,3 +86,7 @@ Substituting, $V_y^{\phi_{n+1}}-V_y^{\phi_{n+1}}$ in Equation \ref{eq:VxPn} and 
 \end{equation}
 
 Evaluating Equation \ref{eq:DeltaVx}, a conclusion can be made that $V_x^{\phi_{n+1}}$ only depends on the previous value and how the capacitors change independently. This will be helpful for implementation. 
+
+% \textcolor{red}{Analyze the capacitor array circuits (shown in Fig. 1 in the paper) to obtain the
+% expression of the capacitor array voltages (Vxp and Vxn) as a function of vin, the control bits and the capacitors values. Use the charge conservation principle in
+% your analysis. Suggestion: first analyze the MSB sub-array separately.Explain how you obtained the expressions and present the expressions in a readable format.}

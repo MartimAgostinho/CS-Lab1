@@ -1,22 +1,15 @@
 \section{Modeling}
 \label{sec:modeling}
 
-\textcolor{red}{Using the previous expression, write a Matlab/Octave model of the behavior of
-this SAR ADC, including the offset error of the comparator. Note that the SAR
-ADC uses two capacitor arrays (split into LSB and MSB arrays) and fully
-differential signals. Include random errors into the capacitors' values and into
-the comparator's offset voltage.}
-
-\textcolor{red}{Carefully explain all the relevant parts of your code, including how you obtained the values for the capacitors in the arrays.}
-
-\textcolor{red}{Demonstrate that your code is working correctly, by first presenting the INL and DNL for the case of zero errors in the circuit. Also present the evolution of Vxp and Vxn for each step for a given input voltage.}
-
+In this section, we will present the modeling of the ADC and DAC. 
 
 \subsection{DAC}
 
 With equation \ref{eq:DeltaVx}, the model only needs to store the last value of $V_x$ and most importantly, the variation on the output node caused by each bit, can be previously calculated and simply accessed, avoiding redundant computing.  
 
 Hence the first step in modeling the DAC is creating a function that precompute the DAC weights. For the Ideal values, each weight is represented in Table \ref{tab:DACWeights}.
+
+\textcolor{red}{explicar a função}
 
 \begin{table}[h]
 
@@ -89,9 +82,7 @@ Figure \ref{fig:IdealDAC} was obtained by sweeping all codes and computing the I
 
 The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{xn}$ evolution after each iteration, i.e., after each comparison of the comparator of the ADC, and the contribution of the DAC for $V_{xp}$ and $V_{xn}$. With this function, the debug and validation of the ADC is easier.
 
-\textcolor{red}{explicar a funcao ? @Sa esta comentada no latex em baixo deste texto}
-
-\textcolor{red}{Acho que não vale a pena, metemos o codigo todo em anexo, mesmo para a parte a seguir, metemos um flowchart}
+\textcolor{red}{explicar a funcao}
 
 \begin{comment}
     
@@ -117,6 +108,7 @@ The first step in the ADC modeling is to make a function that mimics the ADC's p
         b_aux  = vip + Voffset > vin        
         ind   -= 1
         res   += bit_masks[i]*b_aux
+    
 \end{comment}
 
 \begin{figure}[h]
@@ -128,20 +120,17 @@ The first step in the ADC modeling is to make a function that mimics the ADC's p
     \label{fig:VxpVxnEvo}
 \end{figure}
 
-As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common-node voltage, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the hybrid capacitors configuration present in the higher values capacitors, mentioned before. Although this architecture does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
+As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common-mode voltage, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the hybrid capacitors configuration present in the higher values capacitors, mentioned before. Although this architecture does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
 
 This maintenance of the central value is what guarantees that the differential value between $V_{xp}$ and $V_{xn}$ represents the original input value of $V_{in}$, confirming the ADC model presented is working properly.
 
-Now having confirmed the ADC functionality a simpler function was developed, since there is no need to keep the values of both nodes.
+Now having confirmed the ADC functionality a simpler function was developed and explain in  the flowchart depicted in Figure \ref{fig:ADCFlowChart}, since there is no need to keep the values of both nodes.
 The first simplification made was to the circuit's differential nature, the comparator's output, with $V_{Offset}$ effect, is shown in Equation \ref{eq:CompOut}.
 
 \begin{equation}
     V_{xp} + V_{offset} > V_{xn} \Leftrightarrow \overbrace{( V_{xp} - V_{xn} )}^{V_x} > V_{offset} 
     \label{eq:CompOut}
 \end{equation}
-
-\textcolor{red}{DECIDIR CODIGO OU FLOWCHART}
-
 
 \begin{figure}[h]
 
@@ -154,7 +143,7 @@ The first simplification made was to the circuit's differential nature, the comp
 
 \subsubsection{Code Validation}
 
-Now in order to get the ADC transitions, a ramp input signal is generated and then the transition points are collected, giving a tuple output, $\text{ADC Transitions} \longrightarrow ( D_{out}, V_{in} ) $, were $D_{out}$ is the digital output and $V_{in}$ is the analog input that first changed the code to $D_{out}$. 
+Now in order to get the ADC characteristic curve, a ramp input signal was generated and then the transition points were collected, giving a tuple output, $\text{ADC Transitions} \longrightarrow ( D_{out}, V_{in} ) $, were $D_{out}$ is the digital output and $V_{in}$ is the analog input that first changed the code to $D_{out}$, the curve is shown in Figure \ref{fig:ADC_TF_Ideal}.
 
 For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is needed, for the following simulations 50 points per $V_{LSB}$ was used.
 
@@ -186,11 +175,7 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more the
     \label{fig:IdealADC}
 \end{figure}
 
-The values of INL and DNL for the ideal ADC, unlike the values for the DAC, were not equal to $0$ LSB, since the input for the ADC was not a real continuos signal, only an array of point, mimicking this analog input, resulting in a lack of precision.
-
-
-
-
+The values of INL and DNL for the ideal ADC, unlike the values for the DAC, were not equal to $0$ LSB, since the input for the ADC was not a real continuos signal, only an array of point, mimicking this analog input, resulting in a lack of precision, this result is shown in Firures \ref{fig:ADC_DNL_Ideal} and \ref{fig:ADC_INL_Ideal}.
 
 \subsection{FFT ou SNR/ENOB}
 
@@ -211,14 +196,47 @@ Now the Fourier Transform is computed for both.
     \label{eq:fourier}
 \end{equation}
 
-Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum. Hence the noise power is given by Equation \ref{eq:NoisePower}.
+Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum, the graphical representation of $v_{in}$,$V_{IN}$, $V_{OUT}$ and $N(f)$ is depicted in Figure \ref{fig:Noise Ideal}. Hence the noise power is given by Equation \ref{eq:NoisePower}.
 
 \begin{equation}
     P_{noise} = \int_{0}^{+\infty}|N(f)|^2 
     \label{eq:NoisePower}
 \end{equation}
 
-When implementing this, it is important to remember that code operates in discrete time, which has specific effects.  To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. According to the Nyquist theorem, the maximum frequency that can be represented is $F_s/2$, therefore the integral is ends at $F_s/2$ and not $+\infty$. By using a high sampling rate and a low input frequency, the noise introduced during sampling becomes negligible.
+\begin{figure}[h]
+    \centering
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Vin_tempo_ideal.png}
+        \caption{$v_{in}(t)$ - Input signal}
+        \label{fig:Vin_tempo_ideal}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Vin_ideal.png}
+        \caption{$V_{IN}(f)$ - Fourier Transform of $v_{in}(t)$}
+        \label{fig:Vin_freq_ideal}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Dout_ideal.png}
+        \caption{$V_{OUT}(f)$ - Fourier Transform $v_{out}(t)$} 
+        \label{fig:Vout_freq_ideal}
+    \end{subfigure}%
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/Noise_Ideal.png}
+        \caption{$N(f)$ - Noise Spectrum}
+        \label{fig:Noise_freq_ideal}
+    \end{subfigure}
+
+    \caption{Noise spectrum for ideal ADC}
+    \label{fig:Noise Ideal}
+\end{figure}
+
+When implementing this, it is important to remember that code operates in discrete time, which has specific effects.  To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. According to the Nyquist theorem, the maximum frequency that can be represented is $F_s/2$, therefore the integral ends at $F_s/2$ and not $+\infty$. By using a high sampling rate and a low input frequency, the noise introduced during sampling becomes negligible.
 
 \subsubsection{Code Validation}
 
@@ -231,41 +249,14 @@ To validate the code, this was tested for the ideal ADC, Equation \ref{eq:IdealS
 
 Which for a 12 bit ADC gives an ideal $SNR$ of $74~~\si{\decibel}$. The calculated value through the python scripts gives an $SNR = 73.9761~\si{\decibel}$, validating the implementation.
 
-\textcolor{red}{Decidam se querem usar estas imagens}
-
-\begin{figure}[H]
-    \centering
-
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Vin_tempo_ideal.png}
-        \caption{$v_{in}(t)$}
-        \label{fig:Vin_tempo_ideal}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Vin_ideal.png}
-        \caption{$V_{IN}(f)$}
-        \label{fig:Vin_freq_ideal}
-    \end{subfigure}
-
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Dout_ideal.png}
-        \caption{$V_{OUT}(f)$}
-        \label{fig:Vout_freq_ideal}
-    \end{subfigure}%
-    \begin{subfigure}[b]{0.4\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{Images/Noise_Ideal.png}
-        \caption{$N(f)$}
-        \label{fig:Noise_freq_ideal}
-    \end{subfigure}
-
-    \caption{\textcolor{red}{ADICIONAR TITULO}}
-    \label{fig:Noise Ideal}
-\end{figure}
 
 
+% \textcolor{red}{Using the previous expression, write a Matlab/Octave model of the behavior of
+% this SAR ADC, including the offset error of the comparator. Note that the SAR
+% ADC uses two capacitor arrays (split into LSB and MSB arrays) and fully
+% differential signals. Include random errors into the capacitors' values and into
+% the comparator's offset voltage.}
 
+% \textcolor{red}{Carefully explain all the relevant parts of your code, including how you obtained the values for the capacitors in the arrays.}
 
+% \textcolor{red}{Demonstrate that your code is working correctly, by first presenting the INL and DNL for the case of zero errors in the circuit. Also present the evolution of Vxp and Vxn for each step for a given input voltage.}

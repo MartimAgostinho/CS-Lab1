@@ -1,23 +1,12 @@
 \section{Simulation}
 \label{sec:simulation}
-\textcolor{red}{Use the previous model to calculate the transfer function of the ADC (dout(vin))
-and compute the transition voltages of the ADC for a given set of errors.}
-
-\textcolor{red}{Use the model to measure the linearity of the ADC using INL, DNL and FFT.}
-
-\textcolor{red}{Run Monte Carlo analysis of the ADC model to determine the sensitivity of the
-ADC to mismatch errors between the different components.}
-
-\textcolor{red}{Introduce specific errors into the values of key capacitors in the array (such as CB, Cdl, etc) and observe the resulting impact in the INL and DNL. Observe and explain the effect of the offset voltage on the ADC transfer function. Also compare the difference between using CB=2 or CB=16/15.}
-
-\textcolor{red}{Present a histogram of the linearity of the ADC resulting from the monte carlo analysis. Run this analysis for different magnitude of random errors in the capacitors. Present the best, worst and average INL and DNL from this analysis.}
 
 
 Explicar - para comparar com os resultados do paper, na tecnologia $\SI{65}{\nano\meter}$, com $C_u = \SI{6.5}{\femto\farad}$
 
 To test and simulate the ADC transfer function, and since there are no ideal values for the capacitors or any component present in the ADC in study, a Monte Carlo analysis is needed to guarantee a robust implementation to these variations, ensuring a reliable converter.
 
-\subsection{Capacitors value}
+\subsection{Capacitor values and variation}
 
 Depending on manufacturing specifics, there are different ways to define how the capacitors variation will behave. If the capacitors are built by summing unitary capacitors with independent variations, the variation will decrease. For the Monte Carlo analysis, this was \textbf{not} assumed, the same variation was used for all capacitor sizes.
 %First, to test the response of the ADC to the variation of the capacitors values, that respect a normal distribution, with defined variance $\sigma$ of the unit capacitor.
@@ -33,7 +22,7 @@ To guarantee a viable result of the Monte Carlo analysis, $20~000$ simulations w
     \label{fig:ADC_TF_ALLCAPS}
 \end{figure}
 
-Since the ADC in analysis has a resolution of 12 bits, it is not possible to see any result of the Monte Carlo simulation with only the Transfer Functions of all iterations, so it is necessary to analize the INL and DNL errors, shown in Figure \ref{fig:NL_ALLCAPS}
+Since the ADC in analysis has a resolution of 12 bits, it is not possible to see any result of the Monte Carlo simulation with only the Transfer Functions of all iterations, so it is necessary to analize the INL and DNL errors, shown in Figure \ref{fig:NL_ALLCAPS}.
 
 \begin{figure}[H]
     \centering
@@ -143,7 +132,7 @@ IMAGENS PRA SIGMA = 0.05
 
 
 
-\subsection{ $V_{\text{Offset}}$ }
+\subsection{ Comparator's $V_{\text{Offset}}$ }
 
 
 To test the influence of the offset voltage variation in the comparator, a sweep in these value was made, between the values of $V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$. The resulting ADC's Transfer Functions are displayed in Figure \ref{fig:ADC_TF_Offset}.
@@ -340,9 +329,5 @@ The final values for every variation and non-ideal value considered in the analy
     \label{tab:ResultsCb2}
 \end{table}
 
-\textcolor{red}{Pior mass com menos variacao entre casos, com correcao ]e melhor  O vlsb ]e menor que o real }
-
-When comparing both Tables, it is evident that the results of Linearity, SNR and ENOB for $C_B = 16/15$, are superior when compared to $C_B=2$, however, the results in Table \ref{tab:ResultsCb2} exhibits greater consistency across the metrics mentioned before then Table \ref{tab:ResultsCb1516}.
-
-\newpage
+When comparing both Tables, it is evident that the results of Linearity, SNR and ENOB for $C_B = 16/15$, are superior when compared to $C_B=2$, however, the results in Table \ref{tab:ResultsCb2} exhibits greater consistency across the metrics mentioned before then Table \ref{tab:ResultsCb1516}. In terms of implementation, the $C_B = 2$ configuration is more advantageous, as it requires fewer capacitors to be implemented, which is a significant advantage in terms of area occupation and power consumption, and as shown in the results, the performance is not significantly compromised.
 
