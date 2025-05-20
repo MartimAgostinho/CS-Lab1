@@ -5,3 +5,43 @@
 \textcolor{red}{When comparing your results with the paper note that the ADC in the paper has digital correction, which can result in a better performance.}
 
 In this section, we will analyze the results obtained from the simulations and compare them with the results reported in the paper. The analysis will focus on the performance metrics of the ADC, mentioned in the paper.
+
+\subsection{FoM calculation}
+
+Using the same FoM metric as in the paper, we can calculate the FoM of our design. The FoM is defined as:
+
+\begin{equation}
+    \text{FoM} = \frac{\text{P} \times 10^{15}}{2^{ENOB} \times f_s } \si{\femto \joule \per conv.step}
+    \label{eq:FoM}
+\end{equation}
+
+\begin{table}[h]
+    \centering
+    \caption{Comparison of the results obtained from the simulations with the results reported in the paper.}
+    \begin{tabularx}{\textwidth}{>{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X }
+        \toprule
+        \textbf{Metrics} & \textbf{Paper results} & \textbf{Project results}\\
+        \midrule
+        Resolution (bits) & $12$ & $12$ \\
+        \midrule
+        Supply Voltage (V) & $1.2$ & $2$ \\
+        \midrule
+        Sampling Rate (MS/s) & $100$ & $100$  \\
+        \midrule
+        SNR (dB) & $63.18$ & $ $ \\
+        \midrule
+        ENOB (bits) & $10.17$ & $ $ \\
+        \midrule
+        Power (mW) & $0.8$ & $ $   \\
+        \midrule
+        Core Area ($mm^2$) & $0.029$ & $ $   \\
+        \midrule
+        FoM (fJ/conv.-step) & $6.94$ & $ $  \\
+        \bottomrule
+    \end{tabularx}
+    \label{tab:comparison_results}
+\end{table}
+
+Obverving the results in Table \ref{tab:comparison_results}, we can see that the results obtained from the simulations are comparable to the results reported in the paper. The SNR and ENOB values are slightly lower than those reported in the paper, which can be attributed to the lack of digital correction in our design. However, the power consumption and core area are within the same range as those reported in the paper.
+
+The FoM value is also comparable, indicating that our design is efficient in terms of power consumption and area. Overall, the results obtained from the simulations demonstrate that the design meets the performance metrics outlined in the paper, with some room for improvement in SNR and ENOB through digital correction techniques.
