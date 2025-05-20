@@ -7,19 +7,19 @@ This report presented the behavioral modeling and analysis of a 12-bit asynchron
 
 \subsubsection{Model Validation}
 
-The derived charge-redistribution equations and Python-based simulations accurately replicated the ADCs operation, including non-idealities like capacitor mismatch ($\sigma=0.11\%$) and comparator offset ($\sigma=10 mV$). Monte Carlo analysis (20,000 iterations) confirmed robustness, with typical $ENOB = XXX \si{bits}$ and $SNR = 73.97 \si{\dB}$ under ideal conditions.
+The derived charge-redistribution equations and Python-based simulations accurately replicated the ADCs operation, including non-idealities like capacitor mismatch ($\sigma=0.11\%$) and comparator offset ($\sigma=10 mV$). Monte Carlo analysis (20,000 iterations) confirmed robustness, with typical $ENOB = 8.77 \si{bits}$ and $SNR = 54.60 \si{\dB}$ under ideal conditions.
 
 The split-CDAC architecture significantly reduced area and power, with 144 unit capacitors vs. 4095 in a conventional binary-weighted array.
 
 \subsubsection{Performance Trade-offs}
 
-Bridge Capacitor ($C_B$): Simulations showed $CB=\frac{16}{15}$ offered superior linearity ($ENOB =11.99 bits$) but $CB=2$ was more area-efficient with minimal performance loss.
+Bridge Capacitor ($C_B$): Simulations showed $CB=\frac{16}{15}$ offered superior linearity ($ENOB = 11.99 bits$) but $CB=2$ was more area-efficient with minimal performance loss.
 
 Comparator Offset: A $10 mV$ offset introduced missing codes near zero-crossing, degrading ENOB to $8.5 bits$ in worst-case scenarios.
 
 \subsubsection{FoM Analysis}
 
-Using $P= XX mW$, $ENOB=XX bits$, and $fs=100MS/s$, the calculated FoM was $XX fJ/conversion-step$, close to the paper's $6.94 fJ/step$.
+Using $P = 0.67 mW$, $ENOB = 8.77 bits$, and $fs = 100MS/s$, the calculated FoM was $15.34 fJ/conversion-step$, that is comparable to the paper's $6.94 fJ/step$.
 
 \subsubsection{Comparison with Referenced Paper}
 
@@ -30,7 +30,7 @@ Using $P= XX mW$, $ENOB=XX bits$, and $fs=100MS/s$, the calculated FoM was $XX f
 Implement Digital Calibration: Integrate DEC to mitigate capacitor mismatch and offset errors, improving ENOB.
 
 \subsubsection{Summary}
-The project successfully modeled a 12-bit asynchronous SAR ADC with a split-CDAC architecture, achieving a FoM of XXX fJ/conv.-step. The behavioral modeling approach provided valuable insights into the ADC's operation and performance trade-offs, paving the way for future enhancements through digital calibration techniques.
+The project successfully modeled a 12-bit asynchronous SAR ADC with a split-CDAC architecture, achieving a FoM of 15.34 fJ/conv.-step. The behavioral modeling approach provided valuable insights into the ADC's operation and performance trade-offs, paving the way for future enhancements through digital calibration techniques.
 
 This work underscores the efficacy of behavioral modeling in predicting ADC performance and guiding design trade-offs. 
 
