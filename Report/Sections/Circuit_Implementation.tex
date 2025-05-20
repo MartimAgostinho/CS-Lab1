@@ -3,3 +3,70 @@
 \textcolor{red}{Estimate the minimum area and power dissipation of the DAC
 required for the ADC to have an expected linearity of 10.5 bits. Use the
 mismatch error estimation provided in Fig. 4 of the paper.}
+
+In the pursuit of achieving the minimum area and power for $10.5$ bit linearity, the first step is to find the smallest capacitor area that gives a low enough variation for the requested linearity. Figure \ref{fig:Csize2sigma}, shows the area size to capacitance relation, now finding the minimum area is matter of finding the biggest variation. 
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.5\textwidth]{Images/Csize2sigma.png}
+    \caption{Capacitor area to capacitance variation.\textsuperscript{\cite{paper}}}
+
+    \label{fig:Csize2sigma}
+\end{figure}
+
+Using Figure's \ref{fig:Csize2sigma} linear regression Equation \ref{eq:AreaSigma} is deduced.
+
+\begin{equation}
+    \text{area} = \left(\frac{0.408}{\sigma - 0.01}\right)^2
+    \label{eq:AreaSigma}
+\end{equation}
+
+\subsection{10.5 Linearidade \textcolor{red}{TITULO}}
+
+
+
+\textcolor{red}{Vejam se querem a tabela}
+\begin{table}[H]
+    \centering
+    \caption{Monte Carlo (M.C.) $\sigma = 0.01$}
+    \begin{tabularx}{\textwidth}{
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X 
+      >{\centering\arraybackslash}X
+      >{\centering\arraybackslash}X
+    }
+    \toprule
+    \textbf{Simulation} & \textbf{Case} & \textbf{$V_{\text{LSB}}~[\si{\milli\volt}]$} & \textbf{Linearity} & \textbf{SNR [\si{\decibel}}] & \textbf{ENOB} \\
+
+        \midrule
+        % Here: span 3 rows in first column
+        \multirow{3}{*}{
+            \makecell[c]{%
+                M.C. \\
+                All Caps.\\
+                $\sigma=1\%$
+            }%
+        } 
+
+        & Min & 0.4849 &   9.7896 &  53.4049  &  8.5789  \\\cline{2-6}
+        & Typ & 0.4850 &   11.1765 &  55.0371  &  8.7534 \\\cline{2-6}
+        & Max & 0.4906 &   12.8408 &  54.4554  &  8.8500 \\
+
+      \bottomrule
+    \end{tabularx}
+    \label{tab:ResultsLin105}
+\end{table}
+
+For $\sigma = 0.01$, 96.55\% of results had a linearity of $10.5$ or bigger.
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/Lin_s01.png}
+    \caption{ADC's Linearity distribution for $\sigma = 0.01$.}
+
+    \label{fig:Lin_Dist_s01}
+\end{figure}
