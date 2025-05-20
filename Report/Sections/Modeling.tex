@@ -14,9 +14,9 @@ the comparator's offset voltage.}
 
 \subsection{DAC}
 
-With equation \ref{eq:DeltaVx}, the model needs only to store the last value of $V_x$ and most importantly, each bit variation on the output node, can be previously calculated and simply accessed, avoiding redundant computing.  
+With equation \ref{eq:DeltaVx}, the model only needs to store the last value of $V_x$ and most importantly, the variation on the output node caused by each bit, can be previously calculated and simply accessed, avoiding redundant computing.  
 
-Hence the first step in modeling the DAC is creating a function that precompute the DAC weights. For the Ideal values each weight is represented in Table \ref{tab:DACWeights}.
+Hence the first step in modeling the DAC is creating a function that precompute the DAC weights. For the Ideal values, each weight is represented in Table \ref{tab:DACWeights}.
 
 \begin{table}[h]
 
@@ -47,10 +47,12 @@ Hence the first step in modeling the DAC is creating a function that precompute 
     \label{tab:DACWeights}
 \end{table}
 
-In this step is important to remember that the this is a differential circuit, otherwise the DAC wont work for all bits.Now, with the weights computed the DAC output is show in Figure \ref{fig:DAC_TF}.
+In this step it is important to remember that the circuit is differential, otherwise the DAC wont work for all bits, because the hybrid capacitors will have a positive change in one node and negative at the other, Table \ref{tab:DACWeights} shows exactly that. 
+
+Now, with the weights computed the DAC output is show in Figure \ref{fig:DAC_TF}.
 
 \begin{equation}
-    V_{DAC} = \sum_{i}^{\text{code}}\Delta V_{xp}(b_i)- \Delta V_{xn}(b_i)
+    V_{DAC} = \sum_{i}^{\text{code}}\Delta V_{xp}(b_i)- \Delta V_{xn}(\neg b_i)
     \label{eq:VDAC}
 \end{equation}
 
@@ -85,9 +87,11 @@ Figure \ref{fig:IdealDAC} was obtained by sweeping all codes and computing the I
 
 \subsection{ADC}
 
-The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{xn}$ evolution, debug and validation is easier.
+The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{xn}$ evolution after each iteration, i.e., after each comparison of the comparator of the ADC, and the contribution of the DAC for $V_{xp}$ and $V_{xn}$. With this function, the debug and validation of the ADC is easier.
 
 \textcolor{red}{explicar a funcao ? @Sa esta comentada no latex em baixo deste texto}
+
+\textcolor{red}{Acho que não vale a pena, metemos o codigo todo em anexo, mesmo para a parte a seguir, metemos um flowchart}
 
 \begin{comment}
     
@@ -123,7 +127,10 @@ The first step in the ADC modeling is to make a function that mimics the ADC's p
 
     \label{fig:VxpVxnEvo}
 \end{figure}
-\textcolor{red}{SA EXPLICA ISTO PLS $\SI{1}{\volt}$ de entrada }
+
+As demonstrated in Figure \ref{fig:VxpVxnEvo}, the values of $V_{xp}$ and $V_{xn}$ tend to the value of the common-node voltage, equal to $\frac{V_r}{2}$, this means that the central value between both differential inputs remains the same for every iteration, this is the result of the hybrid capacitors configuration present in the higher values capacitors, mentioned before. Although this architecture does not exist for the last iterations, the central value does not differ much from the desired value, since the output of the DAC for the least significant bits is much smaller than the one for the most significant bits, therefore the variation this central value can be negligible.
+
+This maintenance of the central value is what guarantees that the differential value between $V_{xp}$ and $V_{xn}$ represents the original input value of $V_{in}$, confirming the ADC model presented is working properly.
 
 Now having confirmed the ADC functionality a simpler function was developed, since there is no need to keep the values of both nodes.
 The first simplification made was to the circuit's differential nature, the comparator's output, with $V_{Offset}$ effect, is shown in Equation \ref{eq:CompOut}.
@@ -134,22 +141,6 @@ The first simplification made was to the circuit's differential nature, the comp
 \end{equation}
 
 \textcolor{red}{DECIDIR CODIGO OU FLOWCHART}
-
-\begin{lstlisting}[caption={ADC Function}]
-def adc(vin, dac_weights_plus, dac_weights_minus, n_bits_dac, Voffset=0):
-    ind   = n_bits_dac  
-    b_aux = vin > 0
-    res = bit_masks[n_bits_dac]*b_aux
-
-    for i in range(n_bits_dac-1, -1, -1):
-        vin  += dac_weights_plus[i][np.uint8(not b_aux)] \\
-              - dac_weights_minus[i][np.uint8(b_aux)]
-        b_aux = vin > Voffset
-        ind  -= 1
-        res  += bit_masks[i]*b_aux
-
-    return res
-\end{lstlisting}
 
 
 \begin{figure}[h]
@@ -165,10 +156,10 @@ def adc(vin, dac_weights_plus, dac_weights_minus, n_bits_dac, Voffset=0):
 
 Now in order to get the ADC transitions, a ramp input signal is generated and then the transition points are collected, giving a tuple output, $\text{ADC Transitions} \longrightarrow ( D_{out}, V_{in} ) $, were $D_{out}$ is the digital output and $V_{in}$ is the analog input that first changed the code to $D_{out}$. 
 
-For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is need, for the following simulations 50 points per $V_{LSB}$ was used.
+For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is needed, for the following simulations 50 points per $V_{LSB}$ was used.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
 
     \begin{subfigure}[b]{0.9\textwidth}
@@ -191,21 +182,24 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more the
         \label{fig:ADC_INL_Ideal}
     \end{subfigure}
 
-    \caption{DAC validation}
+    \caption{ADC validation}
     \label{fig:IdealADC}
 \end{figure}
 
-\textcolor{red}{Dizer que tem erro mas é pq o input nao é verdadeiramente analogico}
+The values of INL and DNL for the ideal ADC, unlike the values for the DAC, were not equal to $0$ LSB, since the input for the ADC was not a real continuos signal, only an array of point, mimicking this analog input, resulting in a lack of precision.
+
+
+
 
 
 \subsection{FFT ou SNR/ENOB}
 
 \begin{equation}
-    SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)}
+    SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)} \textsuperscript{\cite{analogIntegratedCircBook}}
     \label{eq:SNDR}
 \end{equation}
 
-In order to calculate $SNDR$ a input signal was created,$v_{in}$ , in this case a sine wave with frequency $\SI{1}{\hertz}$. This signal is sampled by the ADC and the output is stored, $v_{out}$.
+In order to calculate $SNDR$ an input signal was created,$v_{in}$ , in this case a sine wave with frequency $\SI{1}{\hertz}$. This signal is sampled by the ADC and the output is stored, $v_{out}$.
 
 Now the Fourier Transform is computed for both.
 
@@ -224,14 +218,14 @@ Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum. Hence th
     \label{eq:NoisePower}
 \end{equation}
 
-When implementing this, it's important to remember that code operates in discrete time, which has specific effects.  To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. According to the Nyquist theorem, the maximum frequency that can be accurately represented is $F_s/2$, therefore the integral is ends at $F_s/2$ and not $+\infty$. By using a high sampling rate and a low input frequency, the noise introduced during sampling becomes negligible. To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods.
+When implementing this, it is important to remember that code operates in discrete time, which has specific effects.  To avoid spectral leakage, the sample length was chosen such that the input sine completes an integer number of periods. According to the Nyquist theorem, the maximum frequency that can be represented is $F_s/2$, therefore the integral is ends at $F_s/2$ and not $+\infty$. By using a high sampling rate and a low input frequency, the noise introduced during sampling becomes negligible.
 
 \subsubsection{Code Validation}
 
-In order to validate the code, this was tested for the ideal ADC, equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. \textcolor{red}{METER REF}
+To validate the code, this was tested for the ideal ADC, Equation \ref{eq:IdealSNR} shows the ideal $SNR$ value for a ADC. 
 
 \begin{equation}
-    SNR_{MAX} = 6.02\cdot n+1.76~~[\si{\decibel}]
+    SNR_{MAX} = 6.02\cdot n+1.76~~[\si{\decibel}] \textsuperscript{\cite{analogIntegratedCircBook}}
     \label{eq:IdealSNR}
 \end{equation}
 

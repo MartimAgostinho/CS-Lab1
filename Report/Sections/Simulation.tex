@@ -15,14 +15,25 @@ ADC to mismatch errors between the different components.}
 
 Explicar - para comparar com os resultados do paper, na tecnologia $\SI{65}{\nano\meter}$, com $C_u = \SI{6.5}{\femto\farad}$
 
+To test and simulate the ADC transfer function, and since there are no ideal values for the capacitors or any component present in the ADC in study, a Monte Carlo analysis is needed to guarantee a robust implementation to these variations, ensuring a reliable converter.
+
+\subsection{Capacitors value}
+
+Depending on manufacturing specifics, there are different ways to define how the capacitors variation will behave. If the capacitors are built by summing unitary capacitors with independent variations, the variation will decrease. For the Monte Carlo analysis, this was \textbf{not} assumed, the same variation was used for all capacitor sizes.
+%First, to test the response of the ADC to the variation of the capacitors values, that respect a normal distribution, with defined variance $\sigma$ of the unit capacitor.
+
+To guarantee a viable result of the Monte Carlo analysis, $20~000$ simulations were executed for all values presented in this report, resulting in the Transfer Functions presented in Figure \ref{fig:ADC_TF_ALLCAPS}.
+
 \begin{figure}[H]
 
     \centering
     \includegraphics*[width=0.9\textwidth]{Images/ADC_TransFunc_All_Caps_20Ksim_s0011.png}
-    \caption{ADC's Transfer function. \textcolor{red}{Melhorar titulo}}
+    \caption{ADC's Transfer function for Capacitor values variation}
 
     \label{fig:ADC_TF_ALLCAPS}
 \end{figure}
+
+Since the ADC in analysis has a resolution of 12 bits, it is not possible to see any result of the Monte Carlo simulation with only the Transfer Functions of all iterations, so it is necessary to analize the INL and DNL errors, shown in Figure \ref{fig:NL_ALLCAPS}
 
 \begin{figure}[H]
     \centering
@@ -39,15 +50,19 @@ Explicar - para comparar com os resultados do paper, na tecnologia $\SI{65}{\nan
         \caption{DNL}
         \label{fig:DNL_ALLCAPS}
     \end{subfigure}
-    \caption{INL and DNL Error \textcolor{red}{Lado a Lado ou uma em cima da outra?}}
+    \caption{INL and DNL Error for Capacitor values variation}
     \label{fig:NL_ALLCAPS}
 \end{figure}
+
+With the INL and DNL, is possible to observe that in the both errors, in the worts case, or minimum linearity value, there are no missing code, since the maximum or minimum value of the INL or DNL passes the value of a single $V_{lsb}$. 
+
+Finally, it is also possible to observe the distributions of the ADC's SNR and Linearity for the simulation carried out in Figures \ref{fig:ADC_SNR_ALLCAPS} and \ref{fig:ADC_LIN_ALLCAPS}, respectively.
 
 \begin{figure}[H]
 
     \centering
     \includegraphics*[width=0.8\textwidth]{Images/SNR_All_Caps_20Ksim_s0011.png}
-    \caption{ADC's SNR Distribution. \textcolor{red}{Melhorar titulo}}
+    \caption{ADC's SNR Distribution.}
     \label{fig:ADC_SNR_ALLCAPS}
 \end{figure}
 
@@ -55,11 +70,14 @@ Explicar - para comparar com os resultados do paper, na tecnologia $\SI{65}{\nan
 
     \centering
     \includegraphics*[width=0.8\textwidth]{Images/LIN_All_Caps_20Ksim_s0011.png}
-    \caption{ADC's Linearity Distribution. \textcolor{red}{Melhorar titulo}}
+    \caption{ADC's Linearity Distribution.}
 
     \label{fig:ADC_LIN_ALLCAPS}
 \end{figure}
 
+The distribution of the ADC's SNR is represented by a left-skewed distribution, with a mean value of approximately $\SI{73.85}{\decibel}$, validating the value obtained previously.
+
+Regarding the Linearity distribution, this is represented by a normal distribution, equl to the distribution of the capacitor values, with a mean of $14.25$ bits, approximately, higher than the $12$ bits resolution of the ADC, which means, the resolution presented is supported by the converter.
 
 \begin{comment}
 
@@ -128,11 +146,50 @@ IMAGENS PRA SIGMA = 0.05
 \subsection{ $V_{\text{Offset}}$ }
 
 
-\textcolor{red}{O Voffset esta um pouco mal formatado}
+To test the influence of the offset voltage variation in the comparator, a sweep in these value was made, between the values of $V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$. The resulting ADC's Transfer Functions are displayed in Figure \ref{fig:ADC_TF_Offset}.
+
+
+
+\begin{figure}[H]
+
+    \centering
+    \includegraphics*[width=0.8\textwidth]{Images/ADC_TransFunc_Voffset.png}
+    \caption{ADC's Transfer Function for different $V_{offset}$.}
+
+    \label{fig:ADC_TF_Offset}
+\end{figure}
+
+To better see the result of the variationn of the offset voltage, the INL and DNL were calculated, resulting in the graphics shown in Figure \ref{fig:NL_Voffset}.
+
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/INL_Voffset.png}
+        \caption{INL}
+        \label{fig:INL_Voffset}
+    \end{subfigure}%
+    
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Images/DNL_Voffset.png}
+        \caption{DNL}
+        \label{fig:DNL_Voffset}
+    \end{subfigure}
+    \caption{INL and DNL Error for $V_{offset}$ variation}
+    \label{fig:NL_Voffset}
+\end{figure}
+
+After analysing the INL and DNL errors, it is possible to conclude that exist missing codes with this variation, with a steep variation in both metrics around $0V$, i.e. when the input signal varies between a positive and a negative value.
+
+\subsection{Final Results}
+
+The final values for every variation and non-ideal value considered in the analysis of the ADC presented are presented in Table \ref{tab:ResultsCb1516} and \ref{tab:ResultsCb2}.
 
 \begin{table}[H]
     \centering
-    \caption{Monte Carlo (M.C.) comparisons. $C_B = 15/16$}
+    \caption{Monte Carlo (M.C.) comparisons. $C_B = 16/15$}
     \begin{tabularx}{\textwidth}{
       >{\centering\arraybackslash}X 
       >{\centering\arraybackslash}X 
@@ -147,7 +204,7 @@ IMAGENS PRA SIGMA = 0.05
         \midrule
         % Here: span 3 rows in first column
         \multirow{3}{*}{
-            \makecell[c]{%
+            \makecell[c]{%  
                 M.C. \\
                 All Caps.\\
                 $\sigma=5\%$
@@ -285,19 +342,7 @@ IMAGENS PRA SIGMA = 0.05
 
 \textcolor{red}{Pior mass com menos variacao entre casos, com correcao ]e melhor  O vlsb ]e menor que o real }
 
-OFSSET 
-
-$V_{\text{Offset}} \in [\SI{-10}{\milli\volt},\SI{10}{\milli\volt}]$
-
-
-\begin{figure}[H]
-
-    \centering
-    \includegraphics*[width=0.8\textwidth]{Images/ADC_TransFunc_Voffset.png}
-    \caption{ADC's Transfer Function for different Offset. \textcolor{red}{Melhorar titulo}}
-
-    \label{fig:ADC_TF_Offset}
-\end{figure}
+When comparing both Tables, it is evident that the results of Linearity, SNR and ENOB for $C_B = 16/15$, are superior when compared to $C_B=2$, however, the results in Table \ref{tab:ResultsCb2} exhibits greater consistency across the metrics mentioned before then Table \ref{tab:ResultsCb1516}.
 
 \newpage
 
