@@ -7,7 +7,7 @@ In this section, we will present the modeling of the ADC and DAC. The developed 
 
 With equation \ref{eq:DeltaVx}, the model only needs to store the last value of $V_x$ and most importantly, the variation on the output node caused by each bit, can be previously calculated and simply accessed, avoiding redundant computing.  
 
-Hence the first step in modeling the DAC is creating a function that precompute the DAC weights. For the Ideal values, each weight is represented in Table \ref{tab:DACWeights}.
+Hence, the first step in modeling the DAC is creating a function that precompute the DAC weights. For the Ideal values, each weight is represented in Table \ref{tab:DACWeights}.
 
 
 \begin{table}[h]
@@ -39,7 +39,7 @@ Hence the first step in modeling the DAC is creating a function that precompute 
     \label{tab:DACWeights}
 \end{table}
 
-In this step it is important to remember that the circuit is differential, otherwise the DAC wont work for all bits, because the hybrid capacitors will have a positive change in one node and negative at the other, Table \ref{tab:DACWeights} shows exactly that. 
+In this step it is important to remember that the circuit is differential, otherwise the DAC will not work for all bits, because the hybrid capacitors will have a positive change in one node and negative at the other, Table \ref{tab:DACWeights} shows exactly that. 
 
 Now, with the weights computed the DAC output is show in Figure \ref{fig:DAC_TF}.
 
@@ -142,7 +142,7 @@ The first simplification made was to the circuit's differential nature, the comp
 
 Now in order to get the ADC characteristic curve, a ramp input signal was generated and then the transition points were collected, giving a tuple output, $\text{ADC Transitions} \longrightarrow ( D_{out}, V_{in} ) $, were $D_{out}$ is the digital output and $V_{in}$ is the analog input that first changed the code to $D_{out}$, the curve is shown in Figure \ref{fig:ADC_TF_Ideal}.
 
-For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more then what is needed, for the following simulations 50 points per $V_{LSB}$ was used.
+For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more than what is needed, for the following simulations 50 points per $V_{LSB}$ was used.
 
 
 \begin{figure}[H]
@@ -193,7 +193,7 @@ Now the Fourier Transform is computed for both.
     \label{eq:fourier}
 \end{equation}
 
-Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum, the graphical representation of $v_{in}$,$V_{IN}$, $V_{OUT}$ and $N(f)$ is depicted in Figure \ref{fig:Noise Ideal}. Hence the noise power is given by Equation \ref{eq:NoisePower}.
+Therefore $N(f) = V_{IN} - V_{OUT}$ where $N(f)$ is the noise spectrum, the graphical representation of $v_{in}$,$V_{IN}$, $V_{OUT}$ and $N(f)$ is depicted in Figure \ref{fig:Noise Ideal}. Hence, the noise power is given by Equation \ref{eq:NoisePower}.
 
 \begin{equation}
     P_{noise} = \int_{0}^{+\infty}|N(f)|^2 

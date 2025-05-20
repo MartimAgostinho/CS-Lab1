@@ -109,7 +109,7 @@ Asymmetric charge injection in conventional designs degrades linearity (INL/DNL)
 
 \subsection{ADC Operation}
 
-The process begins with the sampling of the input voltages ($V_{IP}$ and $V_{IN}$) onto the capacitors of the CDAC. The most significant bit of the CDACs are switched and the dynamic comparator then compares the two output voltages of the CDACs ($V_{XN}$ and $V_{XP}$)and evaluate if the $V_{XP}$ is greater than $V_{XN}$ to determine the digital output of the ADC. 
+The process begins with the sampling of the input voltages ($V_{IP}$ and $V_{IN}$) onto the capacitors of the CDAC. The most significant bit of the CDACs are switched, and the dynamic comparator then compares the two output voltages of the CDACs ($V_{XN}$ and $V_{XP}$)and evaluate if the $V_{XP}$ is greater than $V_{XN}$ to determine the digital output of the ADC. 
 The asynchronous SAR logic controls the conversion process, setting the next capacitors that generate the two new comparison voltages. The voltages change with the goal of reducing the difference between the two output voltages of the CDACs, this implementation is used to maintain differential balance since the switching is complementary for the two arrays.
 The process continues until all 12 bits are converted, with the digital output being updated at each step. When the conversion is complete, the digital output, that is the binary value of difference between $V_{IP}$ and $V_{IN}$, becomes available, and the ADC is ready for the next conversion cycle. The flowchart in Figure \ref{fig:ADC-flowchart} illustrates the operation of the ADC.
 \begin{figure}[H]

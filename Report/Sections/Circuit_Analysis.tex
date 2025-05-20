@@ -18,10 +18,10 @@ It is important to note that the DAC code is divided in Most Significant Bits (M
     \label{fig:DAC_Circ}
 \end{figure}
 
-Each DAC capacitor's bottom plate is alternately connected to either ground (0 V) or the reference voltage $V_{ref}$. During conversion, that switching injects or removes charge proportional to the capacitor's value and the switch state (0 or 1). Hence in order to model the circuit behavior can be modeled as a voltage source with value $b_n\cdot C_n$. 
+Each DAC capacitor's bottom plate is alternately connected to either ground (0 V) or the reference voltage $V_{ref}$. During conversion, that switching injects or removes charge proportional to the capacitor's value and the switch state (0 or 1). Hence, in order to model the circuit behavior can be modeled as a voltage source with value $b_n\cdot C_n$. 
 
 
-For an arbitrary phase $\phi_n$, the circuit is represented by Figure \ref{fig:P1_Circ}. If this phase is the sampling phase, $V_x = V_{in}$ and all capacitors are connected to ground, with the exception of the hybrid capacitors as explained at section \ref{sec:CDAC}.
+For an arbitrary phase $\phi_n$, the circuit is represented by Figure \ref{fig:P1_Circ}. If this phase is the sampling phase, $V_x = V_{in}$ and all capacitors are connected to ground, except the hybrid capacitors as explained at section \ref{sec:CDAC}.
 
 \begin{figure}[H]
 
@@ -47,7 +47,7 @@ Similarly for phase $\phi_{n+1}$, the Equation \ref{eq:ChargeP2}.
     \label{eq:ChargeP2}
 \end{equation}
 
-Therefore with $Q_{\phi_{n}}=Q_{\phi_{n+1}}$:
+Therefore, with $Q_{\phi_{n}}=Q_{\phi_{n+1}}$:
 
 \begin{equation}
     \begin{split}
@@ -57,7 +57,7 @@ Therefore with $Q_{\phi_{n}}=Q_{\phi_{n+1}}$:
     \label{eq:VxPn}
 \end{equation}
 
-Assessing Equation \ref{eq:VxPn}, Capacitors that remain connected to the same source between phases, do not contribute to the net change in charge. The capacitors that change state between phases are represented as $\Delta C_i$. This means that if a capacitor changes from ground to $V_{ref}$, $\Delta C_i = C_i$ but in the case were it changes from $V_{ref}$ to ground,  $\Delta C_i = -C_i$, this will e important for the hybrid capacitors.
+Assessing Equation \ref{eq:VxPn}, Capacitors that remain connected to the same source between phases, do not contribute to the net change in charge. The capacitors that change state between phases are represented as $\Delta C_i$. This means that if a capacitor changes from ground to $V_{ref}$, $\Delta C_i = C_i$ but in the case where it changes from $V_{ref}$ to ground,  $\Delta C_i = -C_i$, this will e important for the hybrid capacitors.
 
 To discover the value of $V_y$, the process is similar. 
 
