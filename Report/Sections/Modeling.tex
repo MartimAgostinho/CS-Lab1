@@ -1,7 +1,7 @@
 \section{Modeling}
 \label{sec:modeling}
 
-In this section, we will present the modeling of the ADC and DAC. 
+In this section, we will present the modeling of the ADC and DAC. The developed code is present in the appendix \ref{github}.
 
 \subsection{DAC}
 
@@ -9,7 +9,6 @@ With equation \ref{eq:DeltaVx}, the model only needs to store the last value of 
 
 Hence the first step in modeling the DAC is creating a function that precompute the DAC weights. For the Ideal values, each weight is represented in Table \ref{tab:DACWeights}.
 
-\textcolor{red}{explicar a função}
 
 \begin{table}[h]
 
@@ -81,8 +80,6 @@ Figure \ref{fig:IdealDAC} was obtained by sweeping all codes and computing the I
 \subsection{ADC}
 
 The first step in the ADC modeling is to make a function that mimics the ADC's process, by plotting the $V_{xp}$ and $V_{xn}$ evolution after each iteration, i.e., after each comparison of the comparator of the ADC, and the contribution of the DAC for $V_{xp}$ and $V_{xn}$. With this function, the debug and validation of the ADC is easier.
-
-\textcolor{red}{explicar a funcao}
 
 \begin{comment}
     
@@ -177,7 +174,7 @@ For testing a ramp with 1000 points per $V_{LSB}$ was used, this is way more the
 
 The values of INL and DNL for the ideal ADC, unlike the values for the DAC, were not equal to $0$ LSB, since the input for the ADC was not a real continuos signal, only an array of point, mimicking this analog input, resulting in a lack of precision, this result is shown in Firures \ref{fig:ADC_DNL_Ideal} and \ref{fig:ADC_INL_Ideal}.
 
-\subsection{FFT ou SNR/ENOB}
+\subsection{FFT, SNR and ENOB}
 
 \begin{equation}
     SNDR = 10 \log_{10} \left( \frac{P_{\text{signal}}}{P_{\text{noise}} + P_{\text{distortion}}} \right)  \quad \text{(in dB)} \textsuperscript{\cite{analogIntegratedCircBook}}
